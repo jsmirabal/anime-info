@@ -20,7 +20,7 @@ internal class AnimeServiceTest {
     private val dummyError: RuntimeException = mockk()
 
     @Test
-    fun `fetch top items successfully`() = runBlocking {
+    fun `fetch top items successfully`() {
         coEvery {
             retrofit.create(AnimeApi::class.java).fetchTopItems(type, subType, page)
         } returns dummyModel
@@ -34,7 +34,7 @@ internal class AnimeServiceTest {
     }
 
     @Test
-    fun `fetch top items then return an error`() = runBlocking {
+    fun `fetch top items then return an error`() {
         coEvery {
             retrofit.create(AnimeApi::class.java).fetchTopItems(type, subType, page)
         } throws dummyError
