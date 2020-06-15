@@ -34,34 +34,34 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.kotlinStdLib)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     // Androidx
-    implementation(Libraries.appCompat)
-    implementation(Libraries.ktxCore)
-    implementation(Libraries.constraintLayout)
+    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.core:core-ktx:1.3.0")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 
     // Google
-    implementation(Libraries.googleMaterial)
+    implementation("com.google.android.material:material:1.1.0")
 
     // Networking
-    implementation(Libraries.retrofit)
-    implementation(Libraries.retrofitConverter)
-    implementation(Libraries.gson)
+    implementation("com.squareup.retrofit2:retrofit:2.7.2")
+    implementation("com.squareup.retrofit2:converter-gson:2.6.1")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     // Threading
-    implementation(Libraries.coroutinesCore)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
     // Instrumentation testing
-    androidTestImplementation(TestLibraries.jUnitExtension)
-    androidTestImplementation(TestLibraries.espresso)
+    androidTestImplementation("androidx.test.ext:junit:1.1.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 
     // Unit testing
-    testImplementation(TestLibraries.jUnitJupiterApi)
-    testRuntimeOnly(TestLibraries.jUnitJupiterEngine)
-    testImplementation(TestLibraries.mockk)
-    testImplementation(TestLibraries.kluent)
-    testImplementation(Libraries.coroutinesAndroid)
-    testImplementation(TestLibraries.coroutinesTest)
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("io.mockk:mockk:1.9.3")
+    testImplementation("org.amshove.kluent:kluent:1.14")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
 }
