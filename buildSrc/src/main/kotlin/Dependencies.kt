@@ -2,7 +2,7 @@ const val kotlinVersion = "1.3.72"
 const val corutinesVersion = "1.3.4"
 
 object BuildPlugins {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:3.3.1"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.0"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val androidApplication = "com.android.application"
     const val kotlinAndroid = "kotlin-android"
