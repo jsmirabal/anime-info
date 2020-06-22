@@ -4,6 +4,9 @@
 /.idea/*
 .DS_Store
 /build
+/buildSrc/build
+/buildSrc/.gradle
+/buildSrc/*.iml
 /captures
 .externalNativeBuild
 .cxx
