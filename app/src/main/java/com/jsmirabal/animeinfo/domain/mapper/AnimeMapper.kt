@@ -7,11 +7,9 @@ import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 
 class AnimeMapper(private val gson: Gson) {
 
-    fun mapToTopAnimes(data: DataTopItems): DomainTopAnimes {
-        return DomainTopAnimes(
-            data.topItems.map {
-                gson.fromJson(gson.toJson(it), AnimeInfo::class.java)
-            }
-        )
-    }
+    fun mapToTopAnimes(data: DataTopItems) = DomainTopAnimes(
+        data.topItems.map {
+            gson.fromJson(gson.toJson(it), AnimeInfo::class.java)
+        }
+    )
 }
