@@ -1,18 +1,21 @@
-package com.jsmirabal.animeinfo.data
+package com.jsmirabal.animeinfo.data.service.api
 
+import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface AnimeApi {
 
-    enum class Type(value: String) {
+    enum class Type(private val value: String) {
         ANIME("anime"),
         MANGA("manga"),
         PEOPLE("people"),
-        CHARACTERS("characters")
+        CHARACTERS("characters");
+
+        fun get() = value
     }
 
-    enum class SubType(value: String) {
+    enum class SubType(private val value: String) {
         // Anime
         AIRING("airing"), UPCOMING("upcoming"), TV("tv"),
         MOVIE("movie"), OVA("ova"), SPECIAL("special"),
@@ -23,7 +26,11 @@ interface AnimeApi {
 
         // Both
         BYPOPULARITY("bypopularity"),
-        FAVORITE("favorite")
+        FAVORITE("favorite"),
+
+        NO_SUB_TYPE("");
+
+        fun get() = value
     }
 
     @GET("/v3/top/{type}/{page}/{subType}")
@@ -31,5 +38,5 @@ interface AnimeApi {
         @Path("type") type: String,
         @Path("subType") subType: String,
         @Path("page") page: String
-    ): AnimeServiceModel
+    ): DataTopItems
 }
