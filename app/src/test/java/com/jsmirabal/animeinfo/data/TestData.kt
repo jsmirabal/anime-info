@@ -20,6 +20,7 @@ internal val dummyAnimeServiceResult = mockk<ResultWrapper.Success<DataTopItems>
 internal val dummyException = Exception()
 internal val dummyExceptionWithMessage = Exception(DUMMY_ERROR_MESSAGE)
 internal val dummyHttpException = mockk<HttpException>()
+internal val dummyBusinessError = mockk<DomainLayerError.BusinessError>()
 internal val dummyTopAiringAnimes = mockk<ResultWrapper<DomainTopAnimes, DomainLayerError>>()
 internal val dummyTopItems = listOf(
     LinkedTreeMap<Any, Any>().apply {

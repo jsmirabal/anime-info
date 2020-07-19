@@ -1,7 +1,8 @@
-package com.jsmirabal.animeinfo
+package com.jsmirabal.animeinfo.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.jsmirabal.animeinfo.R
 
 class MainActivity : AppCompatActivity() {
 
