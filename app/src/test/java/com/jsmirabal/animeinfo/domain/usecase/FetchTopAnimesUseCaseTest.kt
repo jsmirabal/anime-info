@@ -31,10 +31,10 @@ internal class FetchTopAnimesUseCaseTest {
         TestLogger.then("Validate that the expected data is returned")
         result shouldEqual dummyTopAiringAnimes
 
-        TestLogger.then("Validates AnimeRepository#fetchTopItems() was called")
-        coVerify { repository.fetchTopAiringAnimes("1") }
+        TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
+        coVerify { repository.fetchTopAiringAnimes(PAGE_NUMBER) }
 
-        TestLogger.finally("Validates every method called from AnimeRepository was verified")
+        TestLogger.finally("Validate every method called from AnimeRepository was verified")
         confirmVerified(repository)
     }
 }

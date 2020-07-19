@@ -63,5 +63,6 @@ dependencies {
     testImplementation("org.amshove.kluent:kluent:1.14")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
 
 }

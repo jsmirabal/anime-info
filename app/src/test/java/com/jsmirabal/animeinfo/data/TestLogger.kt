@@ -6,4 +6,5 @@ object TestLogger {
     fun whenever(message: String) = println("|-- Whenever: $message --|")
     fun then(message: String) = println("|-- Then: $message --|")
     fun finally(message: String) = println("|-- Finally: $message --|")
+    fun log(message: String) = println("|-- $message --|")
 }
