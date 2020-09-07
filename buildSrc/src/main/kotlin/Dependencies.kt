@@ -1,5 +1,5 @@
 const val kotlinVersion = "1.3.72"
-const val androidGradlePlugin = "4.0.0"
+const val androidGradlePlugin = "4.0.1"
 const val coroutinesVersion = "1.3.7"
 const val junitVersion = "5.6.2"
 
