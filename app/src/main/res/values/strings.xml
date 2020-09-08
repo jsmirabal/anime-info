@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Anime Info</string>
+    <string name="action_favorite">Favorites</string>
+    <string name="action_search">Search</string>
+
+    <string name="poster_image_content_description">Poster Image</string>
+    <string name="more">More...</string>
+    <string name="episodes">Episodes:</string>
 </resources>
