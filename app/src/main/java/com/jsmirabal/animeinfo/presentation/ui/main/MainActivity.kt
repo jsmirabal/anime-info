@@ -1,4 +1,4 @@
-package com.jsmirabal.animeinfo.presentation.ui
+package com.jsmirabal.animeinfo.presentation.ui.main
 
 import android.os.Bundle
 import android.view.Menu
