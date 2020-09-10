@@ -40,6 +40,24 @@ internal class AnimeServiceImplTest {
     }
 
     @Test
+    fun `fetch anime detail successfully`() = runBlockingTest {
+        TestLogger.given("AnimeApi returns mocked data")
+        coEvery { fetchAnimeDetail() } returns dummyAnimeDetail
+
+        TestLogger.whenever("AnimeService fetches Anime Detail")
+        val result = service.fetchAnimeDetail(ANIME_ID)
+
+        TestLogger.then("Validates AnimeService returned expected data")
+        result.success()?.get() shouldEqual dummyAnimeDetail
+
+        TestLogger.then("Validates AnimeApi#fetchAnimeDetail() was called")
+        coVerify { fetchAnimeDetail() }
+
+        TestLogger.finally("Validates every method called from Retrofit was verified")
+        confirmVerified(animeApi)
+    }
+
+    @Test
     fun `fetch top items then return ServerError`() = runBlockingTest {
         TestLogger.given("AnimeApi returns mocked data")
         coEvery { fetchTopItems() } throws dummyHttpException
@@ -112,4 +130,6 @@ internal class AnimeServiceImplTest {
 
     private suspend fun fetchTopItems() =
         animeApi.fetchTopItems(TYPE_ANIME.get(), SUB_TYPE_AIRING.get(), PAGE_NUMBER)
+
+    private suspend fun fetchAnimeDetail() = animeApi.fetchAnimeDetail(ANIME_ID)
 }
