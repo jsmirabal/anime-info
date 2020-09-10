@@ -66,10 +66,50 @@ internal class AnimeRepositoryImplTest {
         confirmVerified(animeService)
     }
 
-    private suspend fun fetchTopItems() =
-        animeService.fetchTopItems(
-            type = AnimeApi.Type.ANIME,
-            subType = AnimeApi.SubType.AIRING,
-            page = PAGE_NUMBER
-        )
+    @Test
+    fun `fetch anime detail successfully`() = runBlockingTest {
+
+        TestLogger.given("AnimeService returns mocked data")
+        coEvery { fetchAnimeDetail() } returns dummyAnimeDetailResult
+
+        TestLogger.whenever("AnimeRepository fetches anime detail")
+        val result = animeRepository.fetchAnimeDetail(ANIME_ID)
+
+        TestLogger.then("Validates AnimeRepository returned expected data")
+        result shouldEqual dummyAnimeDetailResult
+
+        TestLogger.then("Validates AnimeService#fetchAnimeDetail() was called")
+        coVerify { fetchAnimeDetail() }
+
+        TestLogger.finally("Validates every method called from AnimeService was verified")
+        confirmVerified(animeService)
+    }
+
+    @Test
+    fun `fetch anime detail then get an exception`() = runBlockingTest {
+        TestLogger.given("AnimeService returns mocked data")
+        coEvery { fetchAnimeDetail() } throws dummyException
+
+        try {
+            TestLogger.whenever("AnimeRepository fetches anime detail")
+            animeRepository.fetchAnimeDetail(ANIME_ID)
+        } catch (e: Exception) {
+            TestLogger.then("Validates an Exception is thrown")
+            e shouldEqual dummyException
+        }
+
+        TestLogger.then("Validates AnimeService#fetchAnimeDetail() was called")
+        coVerify { fetchAnimeDetail() }
+
+        TestLogger.finally("Validates every method called from AnimeService was verified")
+        confirmVerified(animeService)
+    }
+
+    private suspend fun fetchTopItems() = animeService.fetchTopItems(
+        type = AnimeApi.Type.ANIME,
+        subType = AnimeApi.SubType.AIRING,
+        page = PAGE_NUMBER
+    )
+
+    private suspend fun fetchAnimeDetail() = animeService.fetchAnimeDetail(ANIME_ID)
 }
