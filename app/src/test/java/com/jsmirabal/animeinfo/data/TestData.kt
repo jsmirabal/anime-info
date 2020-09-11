@@ -1,7 +1,7 @@
 package com.jsmirabal.animeinfo.data
 
 import com.google.gson.internal.LinkedTreeMap
-import com.jsmirabal.animeinfo.data.service.api.AnimeApi
+import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.AnimeDetail
@@ -10,8 +10,8 @@ import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 import io.mockk.mockk
 import retrofit2.HttpException
 
-internal val TYPE_ANIME = AnimeApi.Type.ANIME
-internal val SUB_TYPE_AIRING = AnimeApi.SubType.AIRING
+internal val TYPE_ANIME = Top.Type.ANIME
+internal val SUB_TYPE_AIRING = Top.SubType.AIRING
 internal const val PAGE_NUMBER = "1"
 internal const val DUMMY_ERROR_MESSAGE = "Some Error"
 internal const val ANIME_ID = "5114"

@@ -2,7 +2,7 @@ package com.jsmirabal.animeinfo.data.repository
 
 import com.jsmirabal.animeinfo.data.*
 import com.jsmirabal.animeinfo.data.service.AnimeService
-import com.jsmirabal.animeinfo.data.service.api.AnimeApi
+import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
 import io.mockk.coEvery
@@ -106,8 +106,8 @@ internal class AnimeRepositoryImplTest {
     }
 
     private suspend fun fetchTopItems() = animeService.fetchTopItems(
-        type = AnimeApi.Type.ANIME,
-        subType = AnimeApi.SubType.AIRING,
+        type = Top.Type.ANIME,
+        subType = Top.SubType.AIRING,
         page = PAGE_NUMBER
     )
 

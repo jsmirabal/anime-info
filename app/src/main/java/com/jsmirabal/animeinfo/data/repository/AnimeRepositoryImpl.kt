@@ -1,7 +1,7 @@
 package com.jsmirabal.animeinfo.data.repository
 
 import com.jsmirabal.animeinfo.data.service.AnimeService
-import com.jsmirabal.animeinfo.data.service.api.AnimeApi
+import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Error
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Success
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
@@ -14,8 +14,8 @@ class AnimeRepositoryImpl(
 ) : AnimeRepository {
 
     override suspend fun fetchTopAiringAnimes(page: String) = animeService.fetchTopItems(
-        type = AnimeApi.Type.ANIME,
-        subType = AnimeApi.SubType.AIRING,
+        type = Top.Type.ANIME,
+        subType = Top.SubType.AIRING,
         page = page
     ).let {
         when (val result = it) {
