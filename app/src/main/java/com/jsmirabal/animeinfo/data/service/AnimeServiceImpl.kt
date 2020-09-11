@@ -1,5 +1,6 @@
 package com.jsmirabal.animeinfo.data.service
 
+import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.AnimeApi
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
@@ -14,8 +15,8 @@ class AnimeServiceImpl(private val animeApi: AnimeApi) : AnimeService {
         getError(e)
     }
 
-    override suspend fun fetchAnimeDetail(id: String) = try {
-        ResultWrapper.Success(animeApi.fetchAnimeDetail(id))
+    override suspend fun fetchAnime(id: String, request: Anime.Request, page: String) = try {
+        ResultWrapper.Success(animeApi.fetchAnime(id, request.get(), page))
     } catch (e: Exception) {
         getError(e)
     }

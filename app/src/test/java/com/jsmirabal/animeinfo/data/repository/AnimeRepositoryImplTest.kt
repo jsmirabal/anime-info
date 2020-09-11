@@ -2,6 +2,7 @@ package com.jsmirabal.animeinfo.data.repository
 
 import com.jsmirabal.animeinfo.data.*
 import com.jsmirabal.animeinfo.data.service.AnimeService
+import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
@@ -25,13 +26,13 @@ internal class AnimeRepositoryImplTest {
     fun `fetch top airing animes successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchTopItems() } returns dummyAnimeServiceResult
+        coEvery { fetchTopItems() } returns dummyDataTopItemsResult
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
-        coEvery { dummyAnimeServiceResult.get() } returns dummyDataTopItems
+        coEvery { dummyDataTopItemsResult.get() } returns dummyDataTopItems
 
         TestLogger.whenever("AnimeRepository fetches top airing animes")
         val result = animeRepository.fetchTopAiringAnimes(PAGE_NUMBER)
@@ -70,16 +71,22 @@ internal class AnimeRepositoryImplTest {
     fun `fetch anime detail successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnimeDetail() } returns dummyAnimeDetailResult
+        coEvery { fetchAnime() } returns dummyDataAnimeResult
+
+        TestLogger.and("DomainMapper returns mocked data")
+        coEvery { domainMapper.mapToAnimeDetail(dummyDataAnime) } returns dummyDomainAnimeDetail
+
+        TestLogger.and("ResultWrapper.Success<LinkedTreeMap<Any, Any>>#get() returns mocked data")
+        coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeRepository fetches anime detail")
         val result = animeRepository.fetchAnimeDetail(ANIME_ID)
 
         TestLogger.then("Validates AnimeRepository returned expected data")
-        result shouldEqual dummyAnimeDetailResult
+        result shouldEqual ResultWrapper.Success(dummyDomainAnimeDetail)
 
-        TestLogger.then("Validates AnimeService#fetchAnimeDetail() was called")
-        coVerify { fetchAnimeDetail() }
+        TestLogger.then("Validates AnimeService#fetchAnime() was called")
+        coVerify { fetchAnime() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
@@ -88,7 +95,7 @@ internal class AnimeRepositoryImplTest {
     @Test
     fun `fetch anime detail then get an exception`() = runBlockingTest {
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnimeDetail() } throws dummyException
+        coEvery { fetchAnime() } throws dummyException
 
         try {
             TestLogger.whenever("AnimeRepository fetches anime detail")
@@ -98,8 +105,8 @@ internal class AnimeRepositoryImplTest {
             e shouldEqual dummyException
         }
 
-        TestLogger.then("Validates AnimeService#fetchAnimeDetail() was called")
-        coVerify { fetchAnimeDetail() }
+        TestLogger.then("Validates AnimeService#fetchAnime() was called")
+        coVerify { fetchAnime() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
@@ -111,5 +118,9 @@ internal class AnimeRepositoryImplTest {
         page = PAGE_NUMBER
     )
 
-    private suspend fun fetchAnimeDetail() = animeService.fetchAnimeDetail(ANIME_ID)
+    private suspend fun fetchAnime() = animeService.fetchAnime(
+        id = ANIME_ID,
+        request = Anime.Request.DETAIL,
+        page = NO_PAGE
+    )
 }

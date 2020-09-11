@@ -1,6 +1,8 @@
 package com.jsmirabal.animeinfo.data.repository
 
 import com.jsmirabal.animeinfo.data.service.AnimeService
+import com.jsmirabal.animeinfo.data.service.api.Anime
+import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Error
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Success
@@ -24,9 +26,13 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override suspend fun fetchAnimeDetail(id: String) = animeService.fetchAnimeDetail(id).let {
+    override suspend fun fetchAnimeDetail(id: String) = animeService.fetchAnime(
+        id,
+        Anime.Request.DETAIL,
+        page = NO_PAGE
+    ).let {
         when (val result = it) {
-            is Success -> result
+            is Success -> Success(mapper.mapToAnimeDetail(result.get()))
             is Error -> Error(DomainLayerError.DelegateError(result.get()))
         }
     }

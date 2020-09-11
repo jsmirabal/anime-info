@@ -1,7 +1,7 @@
 package com.jsmirabal.animeinfo.data.service.api
 
+import com.google.gson.internal.LinkedTreeMap
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
-import com.jsmirabal.animeinfo.domain.model.AnimeDetail
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,8 +14,10 @@ interface AnimeApi {
         @Path("page") page: String
     ): DataTopItems
 
-    @GET("/v3/anime/{id}")
-    suspend fun fetchAnimeDetail(
-        @Path("id") id: String
-    ): AnimeDetail
+    @GET("/v3/anime/{id}/{request}/{page}")
+    suspend fun fetchAnime(
+        @Path("id") id: String,
+        @Path("request") request: String,
+        @Path("page") page: String
+    ): LinkedTreeMap<Any, Any>
 }

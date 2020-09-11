@@ -1,11 +1,9 @@
 package com.jsmirabal.animeinfo.domain.mapper
 
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
-import com.jsmirabal.animeinfo.domain.model.AnimeCompact
-import com.jsmirabal.animeinfo.domain.model.AnimeDefinitionImpl
-import com.jsmirabal.animeinfo.domain.model.AnimeExtensionImpl
-import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import com.jsmirabal.animeinfo.domain.model.*
 
 class AnimeMapper(private val gson: Gson) {
 
@@ -19,4 +17,15 @@ class AnimeMapper(private val gson: Gson) {
             }
         }
     )
+
+    fun mapToAnimeDetail(data: LinkedTreeMap<Any, Any>): DomainAnimeDetail =
+        gson.toJson(data).let { json ->
+            gson.fromJson(json, DomainAnimeDetail::class.java).let { detail ->
+                DomainAnimeDetail(
+                    gson.fromJson(json, AnimeDefinitionImpl::class.java),
+                    gson.fromJson(json, AnimeExtensionImpl::class.java),
+                    synopsis = detail.synopsis
+                )
+            }
+        }
 }

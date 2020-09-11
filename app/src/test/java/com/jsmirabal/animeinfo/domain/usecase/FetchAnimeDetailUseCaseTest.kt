@@ -2,7 +2,7 @@ package com.jsmirabal.animeinfo.domain.usecase
 
 import com.jsmirabal.animeinfo.data.ANIME_ID
 import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyAnimeDetailResult
+import com.jsmirabal.animeinfo.data.dummyDomainAnimeDetailResult
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -23,13 +23,13 @@ internal class FetchAnimeDetailUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchAnimeDetail(ANIME_ID) } returns dummyAnimeDetailResult
+        coEvery { repository.fetchAnimeDetail(ANIME_ID) } returns dummyDomainAnimeDetailResult
 
         TestLogger.whenever("FetchAnimeDetailUseCase is executed")
         val result = useCase.run(ANIME_ID)
 
         TestLogger.then("Validate that the expected data is returned")
-        result shouldEqual dummyAnimeDetailResult
+        result shouldEqual dummyDomainAnimeDetailResult
 
         TestLogger.then("Validate AnimeRepository#fetchAnimeDetail() was called")
         coVerify { repository.fetchAnimeDetail(ANIME_ID) }
