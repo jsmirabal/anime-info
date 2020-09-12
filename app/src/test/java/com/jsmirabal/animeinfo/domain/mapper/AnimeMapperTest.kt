@@ -12,7 +12,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldEqual
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
@@ -43,7 +42,7 @@ internal class AnimeMapperTest {
 
     @Test
     fun `map LinkedTreeMap to DomainAnimeDetail`() = runBlockingTest {
-        TestLogger.whenever("AnimeMapper maps LinkedTreeMap<Any, Any> to DomainAnimeDetail")
+        TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeDetail")
         val result = mapper.mapToAnimeDetail(dummyAnime)
 
         TestLogger.then("Validates expected instance returned")
@@ -56,7 +55,7 @@ internal class AnimeMapperTest {
 
     @Test
     fun `map LinkedTreeMap to DomainAnimeVideos`() = runBlockingTest {
-        TestLogger.whenever("AnimeMapper maps LinkedTreeMap<Any, Any> to DomainAnimeVideos")
+        TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeVideos")
         val result = mapper.mapToAnimeVideos(dummyAnimeVideosRaw)
 
         TestLogger.then("Validates expected instance returned")

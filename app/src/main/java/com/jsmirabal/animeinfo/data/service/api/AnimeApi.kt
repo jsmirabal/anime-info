@@ -1,6 +1,6 @@
 package com.jsmirabal.animeinfo.data.service.api
 
-import com.google.gson.internal.LinkedTreeMap
+import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,5 +19,5 @@ interface AnimeApi {
         @Path("id") id: String,
         @Path("request") request: String,
         @Path("page") page: String
-    ): LinkedTreeMap<Any, Any>
+    ): DataGenericAnime
 }

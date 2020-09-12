@@ -76,7 +76,7 @@ internal class AnimeRepositoryImplTest {
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToAnimeDetail(dummyDataAnime) } returns dummyDomainAnimeDetail
 
-        TestLogger.and("ResultWrapper.Success<LinkedTreeMap<Any, Any>>#get() returns mocked data")
+        TestLogger.and("ResultWrapper.Success<DataGenericAnime>#get() returns mocked data")
         coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeRepository fetches anime detail")
@@ -101,7 +101,7 @@ internal class AnimeRepositoryImplTest {
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToAnimeVideos(dummyDataAnime) } returns dummyDomainAnimeVideos
 
-        TestLogger.and("ResultWrapper.Success<LinkedTreeMap<Any, Any>>#get() returns mocked data")
+        TestLogger.and("ResultWrapper.Success<DataGenericAnime>#get() returns mocked data")
         coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeRepository fetches anime videos")

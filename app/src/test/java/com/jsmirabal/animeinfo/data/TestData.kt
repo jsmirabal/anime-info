@@ -1,8 +1,8 @@
 package com.jsmirabal.animeinfo.data
 
-import com.google.gson.internal.LinkedTreeMap
 import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.Top
+import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.*
@@ -20,8 +20,8 @@ internal const val ANIME_ID = "5114"
 internal val dummyDataTopItems = mockk<DataTopItems>()
 internal val dummyDataTopItemsResult = mockk<ResultWrapper.Success<DataTopItems>>()
 
-internal val dummyDataAnime = mockk<LinkedTreeMap<Any, Any>>()
-internal val dummyDataAnimeResult = mockk<ResultWrapper.Success<LinkedTreeMap<Any, Any>>>()
+internal val dummyDataAnime = mockk<DataGenericAnime>()
+internal val dummyDataAnimeResult = mockk<ResultWrapper.Success<DataGenericAnime>>()
 
 internal val dummyDomainAnimeDetail = mockk<DomainAnimeDetail>()
 internal val dummyDomainAnimeDetailResult = mockk<ResultWrapper.Success<DomainAnimeDetail>>()
@@ -38,7 +38,7 @@ internal val dummyHttpException = mockk<HttpException>()
 internal val dummyBusinessError = mockk<DomainLayerError.BusinessError>()
 
 internal val dummyTopItems = listOf(
-    LinkedTreeMap<Any, Any>().apply {
+    DataGenericAnime().apply {
         putAll(
             mapOf(
                 "mal_id" to 40591,
@@ -57,7 +57,7 @@ internal val dummyTopItems = listOf(
     }
 )
 
-internal val dummyAnime = LinkedTreeMap<Any, Any>().apply {
+internal val dummyAnime = DataGenericAnime().apply {
     putAll(
         mapOf(
             "mal_id" to 40591,
@@ -76,7 +76,7 @@ internal val dummyAnime = LinkedTreeMap<Any, Any>().apply {
     )
 }
 
-internal val dummyAnimeVideosRaw = LinkedTreeMap<Any, Any>().apply {
+internal val dummyAnimeVideosRaw = DataGenericAnime().apply {
     putAll(
         mapOf(
             "promo" to listOf(
