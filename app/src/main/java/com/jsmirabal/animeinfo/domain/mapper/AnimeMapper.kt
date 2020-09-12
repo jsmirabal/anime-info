@@ -28,4 +28,26 @@ class AnimeMapper(private val gson: Gson) {
                 )
             }
         }
+
+    fun mapToAnimeVideos(data: LinkedTreeMap<Any, Any>): DomainAnimeVideos {
+        val episodes = (data["episodes"] as List<*>).map { episode ->
+            gson.fromJson(gson.toJson(episode), DomainAnimeVideos.Episode::class.java).run {
+                DomainAnimeVideos.Episode(
+                    gson.fromJson(gson.toJson(episode), AnimeDefinitionImpl::class.java),
+                    this.url,
+                    this.episode
+                )
+            }
+        }
+        val trailers = (data["promo"] as List<*>).map { trailer ->
+            gson.fromJson(gson.toJson(trailer), DomainAnimeVideos.Trailer::class.java).run {
+                DomainAnimeVideos.Trailer(
+                    gson.fromJson(gson.toJson(trailer), AnimeDefinitionImpl::class.java),
+                    this.videoUrl
+                )
+            }
+        }
+
+        return DomainAnimeVideos(episodes, trailers)
+    }
 }

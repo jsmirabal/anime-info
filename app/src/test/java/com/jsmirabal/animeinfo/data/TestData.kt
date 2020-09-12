@@ -5,9 +5,7 @@ import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
-import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
-import com.jsmirabal.animeinfo.domain.model.DomainLayerError
-import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import com.jsmirabal.animeinfo.domain.model.*
 import io.mockk.mockk
 import retrofit2.HttpException
 
@@ -27,6 +25,9 @@ internal val dummyDataAnimeResult = mockk<ResultWrapper.Success<LinkedTreeMap<An
 
 internal val dummyDomainAnimeDetail = mockk<DomainAnimeDetail>()
 internal val dummyDomainAnimeDetailResult = mockk<ResultWrapper.Success<DomainAnimeDetail>>()
+
+internal val dummyDomainAnimeVideos = mockk<DomainAnimeVideos>()
+internal val dummyDomainAnimeVideosResult = mockk<ResultWrapper.Success<DomainAnimeVideos>>()
 
 internal val dummyDomainTopAnimes = mockk<DomainTopAnimes>()
 internal val dummyDomainTopAnimesResult = mockk<ResultWrapper.Success<DomainTopAnimes>>()
@@ -74,3 +75,41 @@ internal val dummyAnime = LinkedTreeMap<Any, Any>().apply {
         )
     )
 }
+
+internal val dummyAnimeVideosRaw = LinkedTreeMap<Any, Any>().apply {
+    putAll(
+        mapOf(
+            "promo" to listOf(
+                mapOf(
+                    "title" to "Announcement",
+                    "image_url" to "https://i.ytimg.com/vi/--IcmZkvL0Q/mqdefault.jpg",
+                    "video_url" to "https://www.youtube.com/embed/--IcmZkvL0Q?enablejsapi=1&wmode=opaque&autoplay=1"
+                )
+            ),
+            "episodes" to listOf(
+                mapOf(
+                    "title" to "Journey’s End",
+                    "episode" to "Episode 64",
+                    "url" to "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/episode/64",
+                    "image_url" to "https://cdn.myanimelist.net/images/icon-banned-youtube.png"
+                )
+            )
+        )
+    )
+}
+
+internal val dummyAnimeVideosMapped = DomainAnimeVideos (
+    listOf(
+        DomainAnimeVideos.Episode(
+            AnimeDefinitionImpl(0, "Journey’s End", "https://cdn.myanimelist.net/images/icon-banned-youtube.png"),
+            "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/episode/64",
+            "Episode 64"
+        )
+    ),
+    listOf(
+        DomainAnimeVideos.Trailer(
+            AnimeDefinitionImpl(0, "Announcement", "https://i.ytimg.com/vi/--IcmZkvL0Q/mqdefault.jpg"),
+            "https://www.youtube.com/embed/--IcmZkvL0Q?enablejsapi=1&wmode=opaque&autoplay=1"
+        )
+    )
+)

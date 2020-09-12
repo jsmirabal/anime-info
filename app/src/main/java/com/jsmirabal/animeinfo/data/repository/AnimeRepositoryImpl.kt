@@ -4,6 +4,7 @@ import com.jsmirabal.animeinfo.data.service.AnimeService
 import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
 import com.jsmirabal.animeinfo.data.service.api.Top
+import com.jsmirabal.animeinfo.data.service.model.DataLayerError
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Error
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Success
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
@@ -16,24 +17,38 @@ class AnimeRepositoryImpl(
 ) : AnimeRepository {
 
     override suspend fun fetchTopAiringAnimes(page: String) = animeService.fetchTopItems(
-        type = Top.Type.ANIME,
-        subType = Top.SubType.AIRING,
-        page = page
+        Top.Type.ANIME,
+        Top.SubType.AIRING,
+        page
     ).let {
         when (val result = it) {
             is Success -> Success(mapper.mapToTopAnimes(result.get()))
-            is Error -> Error(DomainLayerError.DelegateError(result.get()))
+            is Error -> getError(result)
         }
     }
 
     override suspend fun fetchAnimeDetail(id: String) = animeService.fetchAnime(
         id,
         Anime.Request.DETAIL,
-        page = NO_PAGE
+        NO_PAGE
     ).let {
         when (val result = it) {
             is Success -> Success(mapper.mapToAnimeDetail(result.get()))
-            is Error -> Error(DomainLayerError.DelegateError(result.get()))
+            is Error -> getError(result)
         }
     }
+
+    override suspend fun fetchAnimeVideos(id: String) = animeService.fetchAnime(
+        id,
+        Anime.Request.VIDEOS,
+        NO_PAGE
+    ).let {
+        when (val result = it) {
+            is Success -> Success(mapper.mapToAnimeVideos(result.get()))
+            is Error -> getError(result)
+        }
+    }
+
+    private fun getError(result: Error<DataLayerError>) =
+        Error(DomainLayerError.DelegateError(result.get()))
 }

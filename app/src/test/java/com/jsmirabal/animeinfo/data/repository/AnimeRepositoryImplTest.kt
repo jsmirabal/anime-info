@@ -71,7 +71,7 @@ internal class AnimeRepositoryImplTest {
     fun `fetch anime detail successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnime() } returns dummyDataAnimeResult
+        coEvery { fetchAnimeDetail() } returns dummyDataAnimeResult
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToAnimeDetail(dummyDataAnime) } returns dummyDomainAnimeDetail
@@ -86,27 +86,32 @@ internal class AnimeRepositoryImplTest {
         result shouldEqual ResultWrapper.Success(dummyDomainAnimeDetail)
 
         TestLogger.then("Validates AnimeService#fetchAnime() was called")
-        coVerify { fetchAnime() }
+        coVerify { fetchAnimeDetail() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
     }
 
     @Test
-    fun `fetch anime detail then get an exception`() = runBlockingTest {
+    fun `fetch anime videos successfully`() = runBlockingTest {
+
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnime() } throws dummyException
+        coEvery { fetchAnimeVideos() } returns dummyDataAnimeResult
 
-        try {
-            TestLogger.whenever("AnimeRepository fetches anime detail")
-            animeRepository.fetchAnimeDetail(ANIME_ID)
-        } catch (e: Exception) {
-            TestLogger.then("Validates an Exception is thrown")
-            e shouldEqual dummyException
-        }
+        TestLogger.and("DomainMapper returns mocked data")
+        coEvery { domainMapper.mapToAnimeVideos(dummyDataAnime) } returns dummyDomainAnimeVideos
 
-        TestLogger.then("Validates AnimeService#fetchAnime() was called")
-        coVerify { fetchAnime() }
+        TestLogger.and("ResultWrapper.Success<LinkedTreeMap<Any, Any>>#get() returns mocked data")
+        coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
+
+        TestLogger.whenever("AnimeRepository fetches anime videos")
+        val result = animeRepository.fetchAnimeVideos(ANIME_ID)
+
+        TestLogger.then("Validates AnimeRepository returned expected data")
+        result shouldEqual ResultWrapper.Success(dummyDomainAnimeVideos)
+
+        TestLogger.then("Validates AnimeService#fetchAnimeVideo() was called")
+        coVerify { fetchAnimeVideos() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
@@ -118,9 +123,15 @@ internal class AnimeRepositoryImplTest {
         page = PAGE_NUMBER
     )
 
-    private suspend fun fetchAnime() = animeService.fetchAnime(
+    private suspend fun fetchAnimeDetail() = animeService.fetchAnime(
         id = ANIME_ID,
         request = Anime.Request.DETAIL,
+        page = NO_PAGE
+    )
+
+    private suspend fun fetchAnimeVideos() = animeService.fetchAnime(
+        id = ANIME_ID,
+        request = Anime.Request.VIDEOS,
         page = NO_PAGE
     )
 }
