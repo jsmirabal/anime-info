@@ -1,6 +1,7 @@
 package com.jsmirabal.animeinfo.data.service
 
 import com.jsmirabal.animeinfo.data.*
+import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.AnimeApi
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
@@ -40,18 +41,18 @@ internal class AnimeServiceImplTest {
     }
 
     @Test
-    fun `fetch anime detail successfully`() = runBlockingTest {
+    fun `fetch anime data successfully`() = runBlockingTest {
         TestLogger.given("AnimeApi returns mocked data")
-        coEvery { fetchAnimeDetail() } returns dummyAnimeDetail
+        coEvery { fetchAnime() } returns dummyDataAnime
 
-        TestLogger.whenever("AnimeService fetches Anime Detail")
-        val result = service.fetchAnimeDetail(ANIME_ID)
+        TestLogger.whenever("AnimeService fetches Anime Data")
+        val result = service.fetchAnime(ANIME_ID, ANIME_DETAIL, PAGE_NUMBER)
 
         TestLogger.then("Validates AnimeService returned expected data")
-        result.success()?.get() shouldEqual dummyAnimeDetail
+        result.success()?.get() shouldEqual dummyDataAnime
 
-        TestLogger.then("Validates AnimeApi#fetchAnimeDetail() was called")
-        coVerify { fetchAnimeDetail() }
+        TestLogger.then("Validates AnimeApi#fetchAnime() was called")
+        coVerify { fetchAnime() }
 
         TestLogger.finally("Validates every method called from Retrofit was verified")
         confirmVerified(animeApi)
@@ -131,5 +132,6 @@ internal class AnimeServiceImplTest {
     private suspend fun fetchTopItems() =
         animeApi.fetchTopItems(TYPE_ANIME.get(), SUB_TYPE_AIRING.get(), PAGE_NUMBER)
 
-    private suspend fun fetchAnimeDetail() = animeApi.fetchAnimeDetail(ANIME_ID)
+    private suspend fun fetchAnime() =
+        animeApi.fetchAnime(ANIME_ID, ANIME_DETAIL.get(), PAGE_NUMBER)
 }

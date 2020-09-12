@@ -1,16 +1,16 @@
 package com.jsmirabal.animeinfo.domain.usecase
 
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
-import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
+import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import kotlinx.coroutines.CoroutineScope
 
-class FetchAnimeDetailUseCase(
+class FetchAnimeVideosUseCase(
     private val animeRepository: AnimeRepository,
     scope: CoroutineScope
-) : UseCase<String, ResultWrapper<DomainAnimeDetail, DomainLayerError>>(scope) {
+) : UseCase<String, ResultWrapper<DomainAnimeVideos, DomainLayerError>>(scope) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun run(animeId: String) = animeRepository.fetchAnimeDetail(animeId)
+    override suspend fun run(animeId: String) = animeRepository.fetchAnimeVideos(animeId)
 }

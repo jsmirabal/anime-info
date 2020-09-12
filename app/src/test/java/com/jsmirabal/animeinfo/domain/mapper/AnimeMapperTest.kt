@@ -1,9 +1,9 @@
 package com.jsmirabal.animeinfo.domain.mapper
 
 import com.google.gson.Gson
-import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyDataTopItems
-import com.jsmirabal.animeinfo.data.dummyTopItems
+import com.jsmirabal.animeinfo.data.*
+import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
+import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -38,5 +38,30 @@ internal class AnimeMapperTest {
 
         TestLogger.finally("Validates every method called from DataTopItems was verified")
         confirmVerified(dummyDataTopItems)
+    }
+
+    @Test
+    fun `map LinkedTreeMap to DomainAnimeDetail`() = runBlockingTest {
+        TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeDetail")
+        val result = mapper.mapToAnimeDetail(dummyAnime)
+
+        TestLogger.then("Validates expected instance returned")
+        result shouldBeInstanceOf DomainAnimeDetail::class.java
+
+        TestLogger.finally("Validates input and output items data is the same")
+        result.id shouldEqual dummyAnime["mal_id"]
+        result.synopsis shouldEqual dummyAnime["synopsis"]
+    }
+
+    @Test
+    fun `map LinkedTreeMap to DomainAnimeVideos`() = runBlockingTest {
+        TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeVideos")
+        val result = mapper.mapToAnimeVideos(dummyAnimeVideosRaw)
+
+        TestLogger.then("Validates expected instance returned")
+        result shouldBeInstanceOf DomainAnimeVideos::class.java
+
+        TestLogger.finally("Validates input and output items data is the same")
+        result shouldEqual dummyAnimeVideosMapped
     }
 }

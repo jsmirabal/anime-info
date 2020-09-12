@@ -2,7 +2,7 @@ package com.jsmirabal.animeinfo.domain.usecase
 
 import com.jsmirabal.animeinfo.data.PAGE_NUMBER
 import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyTopAiringAnimes
+import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResult
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -23,13 +23,13 @@ internal class FetchTopAnimesUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchTopAiringAnimes(PAGE_NUMBER) } returns dummyTopAiringAnimes
+        coEvery { repository.fetchTopAiringAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResult
 
         TestLogger.whenever("FetchTopAnimesUseCase is executed")
         val result = useCase.run(PAGE_NUMBER)
 
         TestLogger.then("Validate that the expected data is returned")
-        result shouldEqual dummyTopAiringAnimes
+        result shouldEqual dummyDomainTopAnimesResult
 
         TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
         coVerify { repository.fetchTopAiringAnimes(PAGE_NUMBER) }

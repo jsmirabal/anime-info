@@ -36,7 +36,7 @@ internal class AnimeViewModelTest {
 
         TestLogger.whenever("AnimeViewModel#fetchTopAnimes() is executed")
         animeViewModelSpy.fetchTopAnimes()
-        onResult.captured.invoke(dummyTopAiringAnimes)
+        onResult.captured.invoke(dummyDomainTopAnimesResult)
         success.captured.invoke(dummyDomainTopAnimes)
 
         TestLogger.then("Verify methods were called")
@@ -60,7 +60,7 @@ internal class AnimeViewModelTest {
         TestLogger.finally("Validate every mock calls were verified")
         confirmVerified(
             fetchTopAnimesUseCase,
-            dummyTopAiringAnimes,
+            dummyDomainTopAnimesResult,
             animeViewModelSpy
         )
     }
@@ -76,7 +76,7 @@ internal class AnimeViewModelTest {
 
         TestLogger.whenever("AnimeViewModel#fetchTopAnimes() is executed")
         animeViewModelSpy.fetchTopAnimes()
-        onResult.captured.invoke(dummyTopAiringAnimes)
+        onResult.captured.invoke(dummyDomainTopAnimesResult)
         error.captured.invoke(dummyBusinessError)
 
         TestLogger.then("Verify methods were called")
@@ -100,7 +100,7 @@ internal class AnimeViewModelTest {
         TestLogger.finally("Validate every mock calls were verified")
         confirmVerified(
             fetchTopAnimesUseCase,
-            dummyTopAiringAnimes,
+            dummyDomainTopAnimesResult,
             animeViewModelSpy
         )
     }
@@ -123,7 +123,7 @@ internal class AnimeViewModelTest {
     }
 
     private fun MockKMatcherScope.resultWrapperEither() {
-        dummyTopAiringAnimes.either(capture(success), capture(error))
+        dummyDomainTopAnimesResult.either(capture(success), capture(error))
     }
 
     private fun MockKMatcherScope.useCaseExecution() =

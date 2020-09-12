@@ -1,6 +1,6 @@
 package com.jsmirabal.animeinfo.domain.model
 
-data class AnimeDetail(
+data class DomainAnimeDetail(
     private val definition: AnimeDefinition,
     private val extension: AnimeExtension,
     val synopsis: String
