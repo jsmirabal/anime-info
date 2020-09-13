@@ -1,10 +1,16 @@
 package com.jsmirabal.animeinfo.domain.mapper
 
 import com.google.gson.Gson
-import com.jsmirabal.animeinfo.data.*
+import com.jsmirabal.animeinfo.data.TestLogger
+import com.jsmirabal.animeinfo.data.dummyAnime
+import com.jsmirabal.animeinfo.data.dummyAnimeVideosMapped
+import com.jsmirabal.animeinfo.data.dummyAnimeVideosRaw
+import com.jsmirabal.animeinfo.data.dummyDataTopItems
+import com.jsmirabal.animeinfo.data.dummyTopItems
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import io.mockk.clearAllMocks
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -12,12 +18,18 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldEqual
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 internal class AnimeMapperTest {
 
     private val mapper = AnimeMapper(Gson())
+
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
+    }
 
     @Test
     fun `map DataTopItems to DomainTopAnimes`() = runBlockingTest {

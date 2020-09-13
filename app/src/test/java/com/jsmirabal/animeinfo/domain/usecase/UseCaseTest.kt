@@ -1,8 +1,14 @@
 package com.jsmirabal.animeinfo.domain.usecase
 
 import com.jsmirabal.animeinfo.TestDispatcherExtension
-import kotlinx.coroutines.*
+import io.mockk.clearAllMocks
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqual
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.coroutines.CoroutineContext
@@ -20,6 +26,11 @@ internal class UseCaseTest {
         override suspend fun run(duration: Long): String {
             return useCaseResult
         }
+    }
+
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
     }
 
     @Test
