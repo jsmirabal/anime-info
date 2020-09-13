@@ -1,6 +1,7 @@
 package com.jsmirabal.animeinfo.data.service.api
 
 import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
+import com.jsmirabal.animeinfo.data.service.model.DataSeasonAnimes
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -20,4 +21,10 @@ interface AnimeApi {
         @Path("request") request: String,
         @Path("page") page: String
     ): DataGenericAnime
+
+    @GET("/v3/season/{year}/{season}")
+    suspend fun fetchSeason(
+        @Path("year") year: String,
+        @Path("season") season: String
+    ): DataSeasonAnimes
 }
