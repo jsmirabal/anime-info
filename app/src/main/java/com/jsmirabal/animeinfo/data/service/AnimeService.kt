@@ -2,7 +2,6 @@ package com.jsmirabal.animeinfo.data.service
 
 import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
-import com.jsmirabal.animeinfo.data.service.api.NO_SEASON
 import com.jsmirabal.animeinfo.data.service.api.NO_YEAR
 import com.jsmirabal.animeinfo.data.service.api.Season
 import com.jsmirabal.animeinfo.data.service.api.Top
