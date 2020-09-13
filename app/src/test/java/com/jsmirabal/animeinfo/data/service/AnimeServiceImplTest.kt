@@ -1,10 +1,10 @@
 package com.jsmirabal.animeinfo.data.service
 
 import com.jsmirabal.animeinfo.data.*
-import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.AnimeApi
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldEqual
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 
@@ -21,6 +22,11 @@ internal class AnimeServiceImplTest {
 
     private val animeApi: AnimeApi = mockk()
     private val service: AnimeService = AnimeServiceImpl(animeApi)
+
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
+    }
 
     @Test
     fun `fetch top items successfully`() = runBlockingTest {

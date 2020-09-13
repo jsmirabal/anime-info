@@ -6,6 +6,7 @@ import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -13,6 +14,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldEqual
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
@@ -22,17 +24,22 @@ internal class AnimeRepositoryImplTest {
     private val domainMapper = mockk<AnimeMapper>()
     private val animeRepository = AnimeRepositoryImpl(animeService, domainMapper)
 
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
+    }
+
     @Test
     fun `fetch top airing animes successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchTopItems() } returns dummyDataTopItemsResult
+        coEvery { fetchTopItems() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
-        coEvery { dummyDataTopItemsResult.get() } returns dummyDataTopItems
+        coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
 
         TestLogger.whenever("AnimeRepository fetches top airing animes")
         val result = animeRepository.fetchTopAiringAnimes(PAGE_NUMBER)
@@ -71,13 +78,13 @@ internal class AnimeRepositoryImplTest {
     fun `fetch anime detail successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnimeDetail() } returns dummyDataAnimeResult
+        coEvery { fetchAnimeDetail() } returns dummyDataAnimeResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToAnimeDetail(dummyDataAnime) } returns dummyDomainAnimeDetail
 
         TestLogger.and("ResultWrapper.Success<DataGenericAnime>#get() returns mocked data")
-        coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
+        coEvery { dummyDataAnimeResultSuccess.get() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeRepository fetches anime detail")
         val result = animeRepository.fetchAnimeDetail(ANIME_ID)
@@ -96,13 +103,13 @@ internal class AnimeRepositoryImplTest {
     fun `fetch anime videos successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchAnimeVideos() } returns dummyDataAnimeResult
+        coEvery { fetchAnimeVideos() } returns dummyDataAnimeResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToAnimeVideos(dummyDataAnime) } returns dummyDomainAnimeVideos
 
         TestLogger.and("ResultWrapper.Success<DataGenericAnime>#get() returns mocked data")
-        coEvery { dummyDataAnimeResult.get() } returns dummyDataAnime
+        coEvery { dummyDataAnimeResultSuccess.get() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeRepository fetches anime videos")
         val result = animeRepository.fetchAnimeVideos(ANIME_ID)

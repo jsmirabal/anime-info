@@ -5,6 +5,7 @@ import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
+import com.jsmirabal.animeinfo.domain.core.WrappedException
 import com.jsmirabal.animeinfo.domain.model.*
 import io.mockk.mockk
 import retrofit2.HttpException
@@ -18,24 +19,31 @@ internal const val DUMMY_ERROR_MESSAGE = "Some Error"
 internal const val ANIME_ID = "5114"
 
 internal val dummyDataTopItems = mockk<DataTopItems>()
-internal val dummyDataTopItemsResult = mockk<ResultWrapper.Success<DataTopItems>>()
+internal val dummyDataTopItemsResultSuccess = mockk<ResultWrapper.Success<DataTopItems>>()
 
 internal val dummyDataAnime = mockk<DataGenericAnime>()
-internal val dummyDataAnimeResult = mockk<ResultWrapper.Success<DataGenericAnime>>()
+internal val dummyDataAnimeResultSuccess = mockk<ResultWrapper.Success<DataGenericAnime>>()
 
 internal val dummyDomainAnimeDetail = mockk<DomainAnimeDetail>()
-internal val dummyDomainAnimeDetailResult = mockk<ResultWrapper.Success<DomainAnimeDetail>>()
+internal val dummyDomainAnimeDetailResultSuccess = mockk<ResultWrapper.Success<DomainAnimeDetail>>()
+internal val dummyDomainAnimeDetailResultError = mockk<ResultWrapper.Error<DomainLayerError>>()
 
 internal val dummyDomainAnimeVideos = mockk<DomainAnimeVideos>()
-internal val dummyDomainAnimeVideosResult = mockk<ResultWrapper.Success<DomainAnimeVideos>>()
+internal val dummyDomainAnimeVideosResultSuccess = mockk<ResultWrapper.Success<DomainAnimeVideos>>()
+internal val dummyDomainAnimeVideosResultError = mockk<ResultWrapper.Error<DomainLayerError>>()
 
 internal val dummyDomainTopAnimes = mockk<DomainTopAnimes>()
-internal val dummyDomainTopAnimesResult = mockk<ResultWrapper.Success<DomainTopAnimes>>()
+internal val dummyDomainTopAnimesResultSuccess = mockk<ResultWrapper.Success<DomainTopAnimes>>()
+internal val dummyDomainTopAnimesResultError = mockk<ResultWrapper.Error<DomainLayerError>>()
+
+internal val dummyDomainRecommendedAnime = mockk<DomainRecommendedAnime>()
+internal val dummyDomainRecommendedAnimeResultSuccess = mockk<ResultWrapper.Success<DomainRecommendedAnime>>()
 
 internal val dummyException = Exception()
 internal val dummyExceptionWithMessage = Exception(DUMMY_ERROR_MESSAGE)
 internal val dummyHttpException = mockk<HttpException>()
 internal val dummyBusinessError = mockk<DomainLayerError.BusinessError>()
+internal val dummyWrappedException = WrappedException(dummyBusinessError)
 
 internal val dummyTopItems = listOf(
     DataGenericAnime().apply {
@@ -81,35 +89,46 @@ internal val dummyAnimeVideosRaw = DataGenericAnime().apply {
         mapOf(
             "promo" to listOf(
                 mapOf(
-                    "title" to "Announcement",
-                    "image_url" to "https://i.ytimg.com/vi/--IcmZkvL0Q/mqdefault.jpg",
-                    "video_url" to "https://www.youtube.com/embed/--IcmZkvL0Q?enablejsapi=1&wmode=opaque&autoplay=1"
+                    "title" to "",
+                    "image_url" to "",
+                    "video_url" to ""
                 )
             ),
             "episodes" to listOf(
                 mapOf(
-                    "title" to "Journey’s End",
-                    "episode" to "Episode 64",
-                    "url" to "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/episode/64",
-                    "image_url" to "https://cdn.myanimelist.net/images/icon-banned-youtube.png"
+                    "title" to "",
+                    "episode" to "",
+                    "url" to "",
+                    "image_url" to ""
                 )
             )
         )
     )
 }
 
+private val definition = AnimeDefinitionImpl(0, "", "")
+private val extension = AnimeExtensionImpl(0, "", "", 0, "", "", 0, 0F)
+
 internal val dummyAnimeVideosMapped = DomainAnimeVideos (
     listOf(
-        DomainAnimeVideos.Episode(
-            AnimeDefinitionImpl(0, "Journey’s End", "https://cdn.myanimelist.net/images/icon-banned-youtube.png"),
-            "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood/episode/64",
-            "Episode 64"
-        )
+        DomainAnimeVideos.Episode(definition, "", "")
     ),
     listOf(
-        DomainAnimeVideos.Trailer(
-            AnimeDefinitionImpl(0, "Announcement", "https://i.ytimg.com/vi/--IcmZkvL0Q/mqdefault.jpg"),
-            "https://www.youtube.com/embed/--IcmZkvL0Q?enablejsapi=1&wmode=opaque&autoplay=1"
-        )
+        DomainAnimeVideos.Trailer(definition, "")
     )
 )
+
+internal val dummyAnimeDetailMapped = DomainAnimeDetail(definition, extension, "")
+
+internal val dummyAnimeCompactMapped = AnimeCompact(definition, extension)
+
+internal val dummyTopAnimesMapped = DomainTopAnimes(
+    listOf(
+        dummyAnimeCompactMapped,
+        dummyAnimeCompactMapped,
+        dummyAnimeCompactMapped,
+        dummyAnimeCompactMapped
+    )
+)
+
+internal val dummyRecommendedAnimeMapped = DomainRecommendedAnime(definition, "", dummyAnimeVideosMapped.trailers)

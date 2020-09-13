@@ -2,7 +2,11 @@ package com.jsmirabal.animeinfo.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.jsmirabal.animeinfo.InstantTaskExecutorExtension
-import com.jsmirabal.animeinfo.data.*
+import com.jsmirabal.animeinfo.data.DUMMY_ERROR_MESSAGE
+import com.jsmirabal.animeinfo.data.TestLogger
+import com.jsmirabal.animeinfo.data.dummyBusinessError
+import com.jsmirabal.animeinfo.data.dummyDomainTopAnimes
+import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
@@ -13,6 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldNotBe
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -27,6 +32,11 @@ internal class AnimeViewModelTest {
     private val success = slot<(DomainTopAnimes) -> Unit>()
     private val error = slot<(DomainLayerError) -> Unit>()
 
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
+    }
+
     @Test
     fun fetchTopAnimesSuccess() = runBlockingTest {
         TestLogger.given("FetchTopAnimesUseCase returns mocked data")
@@ -36,7 +46,7 @@ internal class AnimeViewModelTest {
 
         TestLogger.whenever("AnimeViewModel#fetchTopAnimes() is executed")
         animeViewModelSpy.fetchTopAnimes()
-        onResult.captured.invoke(dummyDomainTopAnimesResult)
+        onResult.captured.invoke(dummyDomainTopAnimesResultSuccess)
         success.captured.invoke(dummyDomainTopAnimes)
 
         TestLogger.then("Verify methods were called")
@@ -60,7 +70,7 @@ internal class AnimeViewModelTest {
         TestLogger.finally("Validate every mock calls were verified")
         confirmVerified(
             fetchTopAnimesUseCase,
-            dummyDomainTopAnimesResult,
+            dummyDomainTopAnimesResultSuccess,
             animeViewModelSpy
         )
     }
@@ -76,7 +86,7 @@ internal class AnimeViewModelTest {
 
         TestLogger.whenever("AnimeViewModel#fetchTopAnimes() is executed")
         animeViewModelSpy.fetchTopAnimes()
-        onResult.captured.invoke(dummyDomainTopAnimesResult)
+        onResult.captured.invoke(dummyDomainTopAnimesResultSuccess)
         error.captured.invoke(dummyBusinessError)
 
         TestLogger.then("Verify methods were called")
@@ -100,7 +110,7 @@ internal class AnimeViewModelTest {
         TestLogger.finally("Validate every mock calls were verified")
         confirmVerified(
             fetchTopAnimesUseCase,
-            dummyDomainTopAnimesResult,
+            dummyDomainTopAnimesResultSuccess,
             animeViewModelSpy
         )
     }
@@ -123,7 +133,7 @@ internal class AnimeViewModelTest {
     }
 
     private fun MockKMatcherScope.resultWrapperEither() {
-        dummyDomainTopAnimesResult.either(capture(success), capture(error))
+        dummyDomainTopAnimesResultSuccess.successOrError(capture(success), capture(error))
     }
 
     private fun MockKMatcherScope.useCaseExecution() =

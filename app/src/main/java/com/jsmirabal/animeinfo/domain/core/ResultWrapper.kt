@@ -16,10 +16,17 @@ sealed class ResultWrapper<out S, out E> {
 
     fun error(): Error<out E>? = this as? Error
 
-    fun either(success: (S) -> Unit, error: (E) -> Unit) {
+    fun successOrError(success: (S) -> Unit, error: (E) -> Unit) {
         when(this) {
             is Success -> success(get())
             is Error -> error(get())
+        }
+    }
+
+    fun <T> returnSuccessOrThrow(returnSuccess: (S) -> T, throwE: (E) -> Exception): T {
+        return when(this) {
+            is Success -> returnSuccess(get())
+            is Error -> throw throwE(get())
         }
     }
 

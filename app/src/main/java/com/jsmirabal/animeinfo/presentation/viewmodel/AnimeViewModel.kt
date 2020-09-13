@@ -18,7 +18,7 @@ class AnimeViewModel(
 
     fun fetchTopAnimes() {
         fetchTopAnimesUseCase.runAsync("1") { result ->
-            result.either(this::onSuccess, this::onError)
+            result.successOrError(this::onSuccess, this::onError)
         }.apply { jobs.add(this) }
     }
 
