@@ -23,7 +23,7 @@ object Top {
         DOUJIN("doujin"), MANHWA("manhwa"), MANHUA("manhua"),
 
         // Both
-        BYPOPULARITY("bypopularity"),
+        BY_POPULARITY("bypopularity"),
         FAVORITE("favorite"),
 
         NO_SUB_TYPE("");

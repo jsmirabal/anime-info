@@ -27,6 +27,17 @@ class AnimeRepositoryImpl(
         }
     }
 
+    override suspend fun fetchTopUpcomingAnimes(page: String) = animeService.fetchTopItems(
+        Top.Type.ANIME,
+        Top.SubType.UPCOMING,
+        page
+    ).let {
+        when (val result = it) {
+            is Success -> Success(mapper.mapToTopAnimes(result.get()))
+            is Error -> getError(result)
+        }
+    }
+
     override suspend fun fetchAnimeDetail(id: String) = animeService.fetchAnime(
         id,
         Anime.Request.DETAIL,

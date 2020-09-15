@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
-import com.jsmirabal.animeinfo.domain.usecase.FetchTopAnimesUseCase
+import com.jsmirabal.animeinfo.domain.usecase.FetchTopAiringAnimesUseCase
 import kotlinx.coroutines.Job
 
 class AnimeViewModel(
-    private val fetchTopAnimesUseCase: FetchTopAnimesUseCase
+    private val fetchTopAiringAnimesUseCase: FetchTopAiringAnimesUseCase
 ) : ViewModel() {
 
     private val jobs: MutableList<Job> = mutableListOf()
@@ -17,7 +17,7 @@ class AnimeViewModel(
     private val errorLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun fetchTopAnimes() {
-        fetchTopAnimesUseCase.runAsync("1") { result ->
+        fetchTopAiringAnimesUseCase.runAsync("1") { result ->
             result.successOrError(this::onSuccess, this::onError)
         }.apply { jobs.add(this) }
     }

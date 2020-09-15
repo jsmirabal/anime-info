@@ -10,7 +10,7 @@ import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
-import com.jsmirabal.animeinfo.domain.usecase.FetchTopAnimesUseCase
+import com.jsmirabal.animeinfo.domain.usecase.FetchTopAiringAnimesUseCase
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantTaskExecutorExtension::class)
 internal class AnimeViewModelTest {
-    private val fetchTopAnimesUseCase = mockk<FetchTopAnimesUseCase>()
+    private val fetchTopAnimesUseCase = mockk<FetchTopAiringAnimesUseCase>()
     private val animeViewModelSpy =
         spyk(AnimeViewModel(fetchTopAnimesUseCase), recordPrivateCalls = true)
     private val onResult =

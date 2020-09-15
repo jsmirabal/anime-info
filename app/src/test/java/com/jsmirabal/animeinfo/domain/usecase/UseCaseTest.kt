@@ -1,6 +1,7 @@
 package com.jsmirabal.animeinfo.domain.usecase
 
 import com.jsmirabal.animeinfo.TestDispatcherExtension
+import com.jsmirabal.animeinfo.domain.usecase.base.UseCase
 import io.mockk.clearAllMocks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
