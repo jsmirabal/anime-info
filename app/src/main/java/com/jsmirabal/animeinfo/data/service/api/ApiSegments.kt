@@ -1,6 +1,7 @@
 package com.jsmirabal.animeinfo.data.service.api
 
 const val NO_PAGE = ""
+const val NO_YEAR = ""
 
 object Top {
     enum class Type(private val value: String) {
@@ -48,4 +49,14 @@ object Anime {
 
         fun get() = value
     }
+}
+
+enum class Season(private val value: String) {
+    SUMMER("summer"),
+    SPRINT("sprint"),
+    FALL("fall"),
+    WINTER("winter"),
+    CURRENT_SEASON("");
+
+    fun get() = value
 }

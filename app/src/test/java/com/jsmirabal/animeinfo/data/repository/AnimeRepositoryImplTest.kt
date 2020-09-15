@@ -124,6 +124,31 @@ internal class AnimeRepositoryImplTest {
         confirmVerified(animeService)
     }
 
+    @Test
+    fun `fetch current season successfully`() = runBlockingTest {
+
+        TestLogger.given("AnimeService returns mocked data")
+        coEvery { fetchCurrentSeason() } returns dummyDataSeasonAnimesSuccess
+
+        TestLogger.and("DomainMapper returns mocked data")
+        coEvery { domainMapper.mapToDomainSeasonAnimes(dummyDataSeasonAnimes) } returns dummyDomainSeasonAnimes
+
+        TestLogger.and("ResultWrapper.Success<DataSeasonAnimes>#get() returns mocked data")
+        coEvery { dummyDataSeasonAnimesSuccess.get() } returns dummyDataSeasonAnimes
+
+        TestLogger.whenever("AnimeRepository fetches current season animes")
+        val result = animeRepository.fetchCurrentSeason()
+
+        TestLogger.then("Validates AnimeRepository returned expected data")
+        result shouldEqual ResultWrapper.Success(dummyDomainSeasonAnimes)
+
+        TestLogger.then("Validates AnimeService#fetchSeason() was called")
+        coVerify { fetchCurrentSeason() }
+
+        TestLogger.finally("Validates every method called from AnimeService was verified")
+        confirmVerified(animeService)
+    }
+
     private suspend fun fetchTopItems() = animeService.fetchTopItems(
         type = Top.Type.ANIME,
         subType = Top.SubType.AIRING,
@@ -141,4 +166,6 @@ internal class AnimeRepositoryImplTest {
         request = Anime.Request.VIDEOS,
         page = NO_PAGE
     )
+
+    private suspend fun fetchCurrentSeason() = animeService.fetchSeason()
 }

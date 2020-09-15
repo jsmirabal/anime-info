@@ -49,6 +49,13 @@ class AnimeRepositoryImpl(
         }
     }
 
+    override suspend fun fetchCurrentSeason() = animeService.fetchSeason().let {
+        when (val result = it) {
+            is Success -> Success(mapper.mapToDomainSeasonAnimes(result.get()))
+            is Error -> getError(result)
+        }
+    }
+
     private fun getError(result: Error<DataLayerError>) =
         Error(DomainLayerError.DelegateError(result.get()))
 }

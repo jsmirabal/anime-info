@@ -6,9 +6,12 @@ import com.jsmirabal.animeinfo.data.dummyAnime
 import com.jsmirabal.animeinfo.data.dummyAnimeVideosMapped
 import com.jsmirabal.animeinfo.data.dummyAnimeVideosRaw
 import com.jsmirabal.animeinfo.data.dummyDataTopItems
+import com.jsmirabal.animeinfo.data.dummySeasonAnimesMapped
+import com.jsmirabal.animeinfo.data.dummySeasonAnimesRaw
 import com.jsmirabal.animeinfo.data.dummyTopItems
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
+import com.jsmirabal.animeinfo.domain.model.DomainSeasonAnimes
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 import io.mockk.clearAllMocks
 import io.mockk.coVerify
@@ -53,7 +56,7 @@ internal class AnimeMapperTest {
     }
 
     @Test
-    fun `map LinkedTreeMap to DomainAnimeDetail`() = runBlockingTest {
+    fun `map DataGenericAnime to DomainAnimeDetail`() = runBlockingTest {
         TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeDetail")
         val result = mapper.mapToAnimeDetail(dummyAnime)
 
@@ -66,7 +69,7 @@ internal class AnimeMapperTest {
     }
 
     @Test
-    fun `map LinkedTreeMap to DomainAnimeVideos`() = runBlockingTest {
+    fun `map DataGenericAnime to DomainAnimeVideos`() = runBlockingTest {
         TestLogger.whenever("AnimeMapper maps DataGenericAnime to DomainAnimeVideos")
         val result = mapper.mapToAnimeVideos(dummyAnimeVideosRaw)
 
@@ -75,5 +78,17 @@ internal class AnimeMapperTest {
 
         TestLogger.finally("Validates input and output items data is the same")
         result shouldEqual dummyAnimeVideosMapped
+    }
+
+    @Test
+    fun `map DataSeasonAnimes to DomainSeasonAnimes`() = runBlockingTest {
+        TestLogger.whenever("AnimeMapper maps DataSeasonAnimes to DomainSeasonAnimes")
+        val result = mapper.mapToDomainSeasonAnimes(dummySeasonAnimesRaw)
+
+        TestLogger.then("Validates expected instance returned")
+        result shouldBeInstanceOf DomainSeasonAnimes::class.java
+
+        TestLogger.finally("Validates input and output items data is the same")
+        result shouldEqual dummySeasonAnimesMapped
     }
 }

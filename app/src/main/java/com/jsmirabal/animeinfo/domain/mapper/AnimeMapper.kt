@@ -2,8 +2,15 @@ package com.jsmirabal.animeinfo.domain.mapper
 
 import com.google.gson.Gson
 import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
+import com.jsmirabal.animeinfo.data.service.model.DataSeasonAnimes
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
-import com.jsmirabal.animeinfo.domain.model.*
+import com.jsmirabal.animeinfo.domain.model.AnimeCompact
+import com.jsmirabal.animeinfo.domain.model.AnimeDefinitionImpl
+import com.jsmirabal.animeinfo.domain.model.AnimeExtensionImpl
+import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
+import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
+import com.jsmirabal.animeinfo.domain.model.DomainSeasonAnimes
+import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 
 class AnimeMapper(private val gson: Gson) {
 
@@ -50,4 +57,17 @@ class AnimeMapper(private val gson: Gson) {
 
         return DomainAnimeVideos(episodes, trailers)
     }
+
+    fun mapToDomainSeasonAnimes(data: DataSeasonAnimes) = DomainSeasonAnimes(
+        data.seasonName,
+        data.seasonYear,
+        data.animes.map {
+            gson.toJson(it).run {
+                AnimeCompact(
+                    gson.fromJson(this, AnimeDefinitionImpl::class.java),
+                    gson.fromJson(this, AnimeExtensionImpl::class.java)
+                )
+            }
+        }
+    )
 }

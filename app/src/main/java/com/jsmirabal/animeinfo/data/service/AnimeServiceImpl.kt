@@ -2,6 +2,7 @@ package com.jsmirabal.animeinfo.data.service
 
 import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.AnimeApi
+import com.jsmirabal.animeinfo.data.service.api.Season
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
@@ -17,6 +18,12 @@ class AnimeServiceImpl(private val animeApi: AnimeApi) : AnimeService {
 
     override suspend fun fetchAnime(id: String, request: Anime.Request, page: String) = try {
         ResultWrapper.Success(animeApi.fetchAnime(id, request.get(), page))
+    } catch (e: Exception) {
+        getError(e)
+    }
+
+    override suspend fun fetchSeason(year: String, season: Season) = try {
+        ResultWrapper.Success(animeApi.fetchSeason(year, season.get()))
     } catch (e: Exception) {
         getError(e)
     }
