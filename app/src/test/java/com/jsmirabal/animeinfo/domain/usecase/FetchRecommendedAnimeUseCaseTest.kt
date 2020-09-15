@@ -29,11 +29,11 @@ internal class FetchRecommendedAnimeUseCaseTest {
     private val animeVideosSlot = slot<(DomainAnimeVideos) -> DomainAnimeVideos>()
     private val throwSlot = slot<(DomainLayerError) -> Exception>()
 
-    private val topAnimesUseCase = mockk<FetchTopAnimesUseCase>()
+    private val topAiringAnimesUseCase = mockk<FetchTopAiringAnimesUseCase>()
     private val animeDetailUseCase = mockk<FetchAnimeDetailUseCase>()
     private val animeVideosUseCase = mockk<FetchAnimeVideosUseCase>()
     private val useCase = FetchRecommendedAnimeUseCase(
-        topAnimesUseCase,
+        topAiringAnimesUseCase,
         animeDetailUseCase,
         animeVideosUseCase,
         testScope
@@ -47,7 +47,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
     @Test
     fun `fetch recommended anime then success`() = runBlockingTest {
         TestLogger.given("Dependee use cases return mocked data")
-        coEvery { topAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
+        coEvery { topAiringAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
         coEvery { animeDetailUseCase.runAsync(any()).await() } returns dummyDomainAnimeDetailResultSuccess
         coEvery { animeVideosUseCase.runAsync(any()).await() } returns dummyDomainAnimeVideosResultSuccess
         coEvery { dummyDomainTopAnimes.topAnimes } returns emptyList()
@@ -68,7 +68,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
 
         TestLogger.then("Validate dependee use cases were called")
         coVerifyAll {
-            topAnimesUseCase.run(any())
+            topAiringAnimesUseCase.run(any())
             animeDetailUseCase.runAsync(any()).await()
             animeVideosUseCase.runAsync(any()).await()
 
@@ -78,13 +78,13 @@ internal class FetchRecommendedAnimeUseCaseTest {
         }
 
         TestLogger.finally("Validate every method called from dependee use cases were verified")
-        confirmVerified(topAnimesUseCase, animeDetailUseCase, animeDetailUseCase)
+        confirmVerified(topAiringAnimesUseCase, animeDetailUseCase, animeDetailUseCase)
     }
 
     @Test
     fun `fetch recommended anime then anime id fails`() = runBlockingTest {
         TestLogger.given("Dependee use cases return mocked data")
-        coEvery { topAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultError
+        coEvery { topAiringAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultError
 
         TestLogger.and("ResultWrapper returns mocked data")
         every { topAnimesErrorCaptured() } throws dummyWrappedException
@@ -98,18 +98,18 @@ internal class FetchRecommendedAnimeUseCaseTest {
 
         TestLogger.then("Validate dependee use cases were called")
         coVerifyAll {
-            topAnimesUseCase.run(any())
+            topAiringAnimesUseCase.run(any())
             topAnimesErrorCaptured()
         }
 
         TestLogger.finally("Validate every method called from dependee use cases were verified")
-        confirmVerified(topAnimesUseCase)
+        confirmVerified(topAiringAnimesUseCase)
     }
 
     @Test
     fun `fetch recommended anime then anime detail fails`() = runBlockingTest {
         TestLogger.given("Dependee use cases return mocked data")
-        coEvery { topAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
+        coEvery { topAiringAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
         coEvery { animeDetailUseCase.runAsync(any()).await() } returns dummyDomainAnimeDetailResultError
 
         TestLogger.and("ResultWrapper returns mocked data")
@@ -126,19 +126,19 @@ internal class FetchRecommendedAnimeUseCaseTest {
 
         TestLogger.then("Validate dependee use cases were called")
         coVerifyAll {
-            topAnimesUseCase.run(any())
+            topAiringAnimesUseCase.run(any())
             animeDetailUseCase.runAsync(any()).await()
             animeDetailErrorCaptured()
         }
 
         TestLogger.finally("Validate every method called from dependee use cases were verified")
-        confirmVerified(topAnimesUseCase, animeDetailUseCase)
+        confirmVerified(topAiringAnimesUseCase, animeDetailUseCase)
     }
 
     @Test
     fun `fetch recommended anime then anime videos fails`() = runBlockingTest {
         TestLogger.given("Dependee use cases return mocked data")
-        coEvery { topAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
+        coEvery { topAiringAnimesUseCase.run(any()) } returns dummyDomainTopAnimesResultSuccess
         coEvery { animeDetailUseCase.runAsync(any()).await() } returns dummyDomainAnimeDetailResultSuccess
         coEvery { animeVideosUseCase.runAsync(any()).await() } returns dummyDomainAnimeVideosResultError
 
@@ -158,7 +158,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
 
         TestLogger.then("Validate dependee use cases were called")
         coVerifyAll {
-            topAnimesUseCase.run(any())
+            topAiringAnimesUseCase.run(any())
             animeDetailUseCase.runAsync(any()).await()
             animeVideosUseCase.runAsync(any()).await()
 
@@ -167,7 +167,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
         }
 
         TestLogger.finally("Validate every method called from dependee use cases were verified")
-        confirmVerified(topAnimesUseCase, animeDetailUseCase, animeVideosUseCase)
+        confirmVerified(topAiringAnimesUseCase, animeDetailUseCase, animeVideosUseCase)
     }
 
     private fun MockKMatcherScope.topAnimesSuccessCaptured() =

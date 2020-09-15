@@ -17,10 +17,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class FetchTopAnimesUseCaseTest {
+internal class FetchTopUpcomingAnimesUseCaseTest {
     private val repository = mockk<AnimeRepository>()
     private val testScope = TestCoroutineScope()
-    private val useCase = FetchTopAnimesUseCase(repository, testScope)
+    private val useCase = FetchTopUpcomingAnimesUseCase(repository, testScope)
 
     @AfterEach
     fun afterEach() {
@@ -30,16 +30,16 @@ internal class FetchTopAnimesUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchTopAiringAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResultSuccess
+        coEvery { repository.fetchTopUpcomingAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResultSuccess
 
-        TestLogger.whenever("FetchTopAnimesUseCase is executed")
+        TestLogger.whenever("FetchTopUpcomingAnimesUseCase is executed")
         val result = useCase.run(PAGE_NUMBER)
 
         TestLogger.then("Validate that the expected data is returned")
         result shouldEqual dummyDomainTopAnimesResultSuccess
 
         TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
-        coVerify { repository.fetchTopAiringAnimes(PAGE_NUMBER) }
+        coVerify { repository.fetchTopUpcomingAnimes(PAGE_NUMBER) }
 
         TestLogger.finally("Validate every method called from AnimeRepository was verified")
         confirmVerified(repository)

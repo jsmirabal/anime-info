@@ -33,7 +33,7 @@ internal class AnimeRepositoryImplTest {
     fun `fetch top airing animes successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchTopItems() } returns dummyDataTopItemsResultSuccess
+        coEvery { fetchTopAiring() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
         coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
@@ -48,7 +48,7 @@ internal class AnimeRepositoryImplTest {
         result shouldEqual ResultWrapper.Success(dummyDomainTopAnimes)
 
         TestLogger.then("Validates AnimeService#fetchTopItems() was called")
-        coVerify { fetchTopItems() }
+        coVerify { fetchTopAiring() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
@@ -57,7 +57,7 @@ internal class AnimeRepositoryImplTest {
     @Test
     fun `fetch top airing animes then get an exception`() = runBlockingTest {
         TestLogger.given("AnimeService returns mocked data")
-        coEvery { fetchTopItems() } throws dummyException
+        coEvery { fetchTopAiring() } throws dummyException
 
         try {
             TestLogger.whenever("AnimeRepository fetches top airing animes")
@@ -68,7 +68,32 @@ internal class AnimeRepositoryImplTest {
         }
 
         TestLogger.then("Validates AnimeService#fetchTopItems() was called")
-        coVerify { fetchTopItems() }
+        coVerify { fetchTopAiring() }
+
+        TestLogger.finally("Validates every method called from AnimeService was verified")
+        confirmVerified(animeService)
+    }
+
+    @Test
+    fun `fetch top upcoming animes successfully`() = runBlockingTest {
+
+        TestLogger.given("AnimeService returns mocked data")
+        coEvery { fetchTopUpcoming() } returns dummyDataTopItemsResultSuccess
+
+        TestLogger.and("DomainMapper returns mocked data")
+        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+
+        TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
+        coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
+
+        TestLogger.whenever("AnimeRepository fetches top airing animes")
+        val result = animeRepository.fetchTopUpcomingAnimes(PAGE_NUMBER)
+
+        TestLogger.then("Validates AnimeRepository returned expected data")
+        result shouldEqual ResultWrapper.Success(dummyDomainTopAnimes)
+
+        TestLogger.then("Validates AnimeService#fetchTopItems() was called")
+        coVerify { fetchTopUpcoming() }
 
         TestLogger.finally("Validates every method called from AnimeService was verified")
         confirmVerified(animeService)
@@ -149,9 +174,15 @@ internal class AnimeRepositoryImplTest {
         confirmVerified(animeService)
     }
 
-    private suspend fun fetchTopItems() = animeService.fetchTopItems(
+    private suspend fun fetchTopAiring() = animeService.fetchTopItems(
         type = Top.Type.ANIME,
         subType = Top.SubType.AIRING,
+        page = PAGE_NUMBER
+    )
+
+    private suspend fun fetchTopUpcoming() = animeService.fetchTopItems(
+        type = Top.Type.ANIME,
+        subType = Top.SubType.UPCOMING,
         page = PAGE_NUMBER
     )
 

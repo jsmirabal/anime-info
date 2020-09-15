@@ -4,6 +4,7 @@ import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainSeasonAnimes
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
+import com.jsmirabal.animeinfo.domain.usecase.base.UseCase
 import kotlinx.coroutines.CoroutineScope
 
 class FetchCurrentSeasonUseCase(

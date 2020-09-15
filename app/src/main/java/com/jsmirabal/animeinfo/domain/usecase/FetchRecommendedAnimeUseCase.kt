@@ -10,10 +10,11 @@ import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainRecommendedAnime
+import com.jsmirabal.animeinfo.domain.usecase.base.UseCase
 import kotlinx.coroutines.CoroutineScope
 
 class FetchRecommendedAnimeUseCase(
-    private val fetchTopAnimesUseCase: FetchTopAnimesUseCase,
+    private val fetchTopAiringAnimesUseCase: FetchTopAiringAnimesUseCase,
     private val fetchAnimeDetailUseCase: FetchAnimeDetailUseCase,
     private val fetchAnimeVideosUseCase: FetchAnimeVideosUseCase,
     scope: CoroutineScope
@@ -38,7 +39,7 @@ class FetchRecommendedAnimeUseCase(
     }
 
     private suspend fun getAnimeIdOrFail(): Int =
-        fetchTopAnimesUseCase.run(pageNumber = "1").returnSuccessOrThrow(
+        fetchTopAiringAnimesUseCase.run(pageNumber = "1").returnSuccessOrThrow(
         returnSuccess = {
             it.topAnimes.run { this[getRandomNumber(0, this.lastIndex)].id }
         },
