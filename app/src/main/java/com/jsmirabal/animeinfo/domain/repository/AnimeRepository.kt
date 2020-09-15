@@ -18,6 +18,10 @@ interface AnimeRepository {
         page: String = NO_PAGE // Optional,
     ): ResultWrapper<DomainTopAnimes, DomainLayerError>
 
+    suspend fun fetchMostPopularAnimes(
+        page: String = NO_PAGE // Optional,
+    ): ResultWrapper<DomainTopAnimes, DomainLayerError>
+
     suspend fun fetchAnimeDetail(
         id: String
     ): ResultWrapper<DomainAnimeDetail, DomainLayerError>

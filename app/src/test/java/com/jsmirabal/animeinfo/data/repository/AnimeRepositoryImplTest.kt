@@ -100,6 +100,31 @@ internal class AnimeRepositoryImplTest {
     }
 
     @Test
+    fun `fetch most popular animes successfully`() = runBlockingTest {
+
+        TestLogger.given("AnimeService returns mocked data")
+        coEvery { fetchMostPopular() } returns dummyDataTopItemsResultSuccess
+
+        TestLogger.and("DomainMapper returns mocked data")
+        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+
+        TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
+        coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
+
+        TestLogger.whenever("AnimeRepository fetches top airing animes")
+        val result = animeRepository.fetchMostPopularAnimes(PAGE_NUMBER)
+
+        TestLogger.then("Validates AnimeRepository returned expected data")
+        result shouldEqual ResultWrapper.Success(dummyDomainTopAnimes)
+
+        TestLogger.then("Validates AnimeService#fetchTopItems() was called")
+        coVerify { fetchMostPopular() }
+
+        TestLogger.finally("Validates every method called from AnimeService was verified")
+        confirmVerified(animeService)
+    }
+
+    @Test
     fun `fetch anime detail successfully`() = runBlockingTest {
 
         TestLogger.given("AnimeService returns mocked data")
@@ -183,6 +208,12 @@ internal class AnimeRepositoryImplTest {
     private suspend fun fetchTopUpcoming() = animeService.fetchTopItems(
         type = Top.Type.ANIME,
         subType = Top.SubType.UPCOMING,
+        page = PAGE_NUMBER
+    )
+
+    private suspend fun fetchMostPopular() = animeService.fetchTopItems(
+        type = Top.Type.ANIME,
+        subType = Top.SubType.BY_POPULARITY,
         page = PAGE_NUMBER
     )
 
