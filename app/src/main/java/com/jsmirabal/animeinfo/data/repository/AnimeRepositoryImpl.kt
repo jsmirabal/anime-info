@@ -5,6 +5,8 @@ import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
+import com.jsmirabal.animeinfo.data.service.model.DataTopItems
+import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Error
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Success
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
@@ -20,34 +22,25 @@ class AnimeRepositoryImpl(
         Top.Type.ANIME,
         Top.SubType.AIRING,
         page
-    ).let {
-        when (val result = it) {
-            is Success -> Success(mapper.mapToTopAnimes(result.get()))
-            is Error -> getError(result)
-        }
-    }
+    ).let { handleTopItems(it) }
 
     override suspend fun fetchTopUpcomingAnimes(page: String) = animeService.fetchTopItems(
         Top.Type.ANIME,
         Top.SubType.UPCOMING,
         page
-    ).let {
-        when (val result = it) {
-            is Success -> Success(mapper.mapToTopAnimes(result.get()))
-            is Error -> getError(result)
-        }
-    }
+    ).let { handleTopItems(it) }
 
     override suspend fun fetchMostPopularAnimes(page: String) = animeService.fetchTopItems(
         Top.Type.ANIME,
         Top.SubType.BY_POPULARITY,
         page
-    ).let {
-        when (val result = it) {
-            is Success -> Success(mapper.mapToTopAnimes(result.get()))
-            is Error -> getError(result)
-        }
-    }
+    ).let { handleTopItems(it) }
+
+    override suspend fun fetchMostFavoriteAnimes(page: String) = animeService.fetchTopItems(
+        Top.Type.ANIME,
+        Top.SubType.FAVORITE,
+        page
+    ).let { handleTopItems(it) }
 
     override suspend fun fetchAnimeDetail(id: String) = animeService.fetchAnime(
         id,
@@ -77,6 +70,12 @@ class AnimeRepositoryImpl(
             is Error -> getError(result)
         }
     }
+
+    private fun handleTopItems(result: ResultWrapper<DataTopItems, DataLayerError>) =
+        when (result) {
+            is Success -> Success(mapper.mapToTopAnimes(result.get()))
+            is Error -> getError(result)
+        }
 
     private fun getError(result: Error<DataLayerError>) =
         Error(DomainLayerError.DelegateError(result.get()))
