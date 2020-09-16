@@ -10,7 +10,7 @@ import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
-import com.jsmirabal.animeinfo.domain.usecase.FetchTopAiringAnimesUseCase
+import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job

@@ -1,8 +1,8 @@
-package com.jsmirabal.animeinfo.domain.usecase
+package com.jsmirabal.animeinfo.domain.usecase.fetch
 
-import com.jsmirabal.animeinfo.data.ANIME_ID
+import com.jsmirabal.animeinfo.data.PAGE_NUMBER
 import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyDomainAnimeDetailResultSuccess
+import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -17,10 +17,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class FetchAnimeDetailUseCaseTest {
+internal class FetchMostPopularAnimesUseCaseTest {
     private val repository = mockk<AnimeRepository>()
     private val testScope = TestCoroutineScope()
-    private val useCase = FetchAnimeDetailUseCase(repository, testScope)
+    private val useCase = FetchMostPopularAnimesUseCase(repository, testScope)
 
     @AfterEach
     fun afterEach() {
@@ -30,16 +30,16 @@ internal class FetchAnimeDetailUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchAnimeDetail(ANIME_ID) } returns dummyDomainAnimeDetailResultSuccess
+        coEvery { repository.fetchMostPopularAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResultSuccess
 
-        TestLogger.whenever("FetchAnimeDetailUseCase is executed")
-        val result = useCase.run(ANIME_ID)
+        TestLogger.whenever("FetchMostPopularAnimesUseCase is executed")
+        val result = useCase.run(PAGE_NUMBER)
 
         TestLogger.then("Validate that the expected data is returned")
-        result shouldEqual dummyDomainAnimeDetailResultSuccess
+        result shouldEqual dummyDomainTopAnimesResultSuccess
 
-        TestLogger.then("Validate AnimeRepository#fetchAnimeDetail() was called")
-        coVerify { repository.fetchAnimeDetail(ANIME_ID) }
+        TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
+        coVerify { repository.fetchMostPopularAnimes(PAGE_NUMBER) }
 
         TestLogger.finally("Validate every method called from AnimeRepository was verified")
         confirmVerified(repository)

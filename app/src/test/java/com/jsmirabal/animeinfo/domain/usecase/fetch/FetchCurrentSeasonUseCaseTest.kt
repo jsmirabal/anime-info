@@ -1,8 +1,7 @@
-package com.jsmirabal.animeinfo.domain.usecase
+package com.jsmirabal.animeinfo.domain.usecase.fetch
 
-import com.jsmirabal.animeinfo.data.PAGE_NUMBER
 import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
+import com.jsmirabal.animeinfo.data.dummyDomainSeasonAnimesSuccess
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -17,10 +16,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class FetchMostFavoriteAnimesUseCaseTest {
+class FetchCurrentSeasonUseCaseTest {
     private val repository = mockk<AnimeRepository>()
     private val testScope = TestCoroutineScope()
-    private val useCase = FetchMostFavoriteAnimesUseCase(repository, testScope)
+    private val useCase = FetchCurrentSeasonUseCase(repository, testScope)
 
     @AfterEach
     fun afterEach() {
@@ -30,16 +29,16 @@ internal class FetchMostFavoriteAnimesUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchMostFavoriteAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResultSuccess
+        coEvery { repository.fetchCurrentSeason() } returns dummyDomainSeasonAnimesSuccess
 
-        TestLogger.whenever("FetchMostFavoriteAnimesUseCase is executed")
-        val result = useCase.run(PAGE_NUMBER)
+        TestLogger.whenever("FetchCurrentSeasonUseCase is executed")
+        val result = useCase.run(Unit)
 
         TestLogger.then("Validate that the expected data is returned")
-        result shouldEqual dummyDomainTopAnimesResultSuccess
+        result shouldEqual dummyDomainSeasonAnimesSuccess
 
-        TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
-        coVerify { repository.fetchMostFavoriteAnimes(PAGE_NUMBER) }
+        TestLogger.then("Validate AnimeRepository#fetchCurrentSeason() was called")
+        coVerify { repository.fetchCurrentSeason() }
 
         TestLogger.finally("Validate every method called from AnimeRepository was verified")
         confirmVerified(repository)

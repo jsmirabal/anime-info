@@ -13,6 +13,7 @@ import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainSeasonAnimes
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
 import io.mockk.clearAllMocks
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -40,7 +41,7 @@ internal class AnimeMapperTest {
         every { dummyDataTopItems.topItems } returns dummyTopItems
 
         TestLogger.whenever("AnimeMapper maps DataTopItems to DomainTopAnimes")
-        val result = mapper.mapToTopAnimes(dummyDataTopItems)
+        val result = mapper.mapToTopAnimes(dummyDataTopItems, MainFeedItemType.TOP_AIRING_ANIMES)
 
         TestLogger.then("Validates expected instance returned")
         result shouldBeInstanceOf DomainTopAnimes::class.java

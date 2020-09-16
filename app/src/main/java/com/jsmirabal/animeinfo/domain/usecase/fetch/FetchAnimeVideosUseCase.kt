@@ -1,4 +1,4 @@
-package com.jsmirabal.animeinfo.domain.usecase
+package com.jsmirabal.animeinfo.domain.usecase.fetch
 
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos

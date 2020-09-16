@@ -6,6 +6,7 @@ import com.jsmirabal.animeinfo.data.service.api.Anime
 import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
+import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -36,7 +37,9 @@ internal class AnimeRepositoryImplTest {
         coEvery { fetchTopAiring() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
-        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+        coEvery {
+            domainMapper.mapToTopAnimes(dummyDataTopItems, MainFeedItemType.TOP_AIRING_ANIMES)
+        } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
         coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
@@ -81,7 +84,9 @@ internal class AnimeRepositoryImplTest {
         coEvery { fetchTopUpcoming() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
-        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+        coEvery {
+            domainMapper.mapToTopAnimes(dummyDataTopItems, MainFeedItemType.TOP_UPCOMING_ANIMES)
+        } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
         coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
@@ -106,7 +111,9 @@ internal class AnimeRepositoryImplTest {
         coEvery { fetchMostPopular() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
-        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+        coEvery {
+            domainMapper.mapToTopAnimes(dummyDataTopItems, MainFeedItemType.MOST_POPULAR_ANIMES)
+        } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
         coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems
@@ -131,7 +138,9 @@ internal class AnimeRepositoryImplTest {
         coEvery { fetchMostFavorite() } returns dummyDataTopItemsResultSuccess
 
         TestLogger.and("DomainMapper returns mocked data")
-        coEvery { domainMapper.mapToTopAnimes(dummyDataTopItems) } returns dummyDomainTopAnimes
+        coEvery {
+            domainMapper.mapToTopAnimes(dummyDataTopItems, MainFeedItemType.MOST_FAVORITE_ANIMES)
+        } returns dummyDomainTopAnimes
 
         TestLogger.and("ResultWrapper.Success<DataTopItems>#get() returns mocked data")
         coEvery { dummyDataTopItemsResultSuccess.get() } returns dummyDataTopItems

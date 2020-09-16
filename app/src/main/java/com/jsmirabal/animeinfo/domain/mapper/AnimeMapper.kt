@@ -4,17 +4,18 @@ import com.google.gson.Gson
 import com.jsmirabal.animeinfo.data.service.model.DataGenericAnime
 import com.jsmirabal.animeinfo.data.service.model.DataSeasonAnimes
 import com.jsmirabal.animeinfo.data.service.model.DataTopItems
-import com.jsmirabal.animeinfo.domain.model.AnimeCompact
-import com.jsmirabal.animeinfo.domain.model.AnimeDefinitionImpl
-import com.jsmirabal.animeinfo.domain.model.AnimeExtensionImpl
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainSeasonAnimes
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import com.jsmirabal.animeinfo.domain.model.base.AnimeCompact
+import com.jsmirabal.animeinfo.domain.model.base.AnimeDefinitionImpl
+import com.jsmirabal.animeinfo.domain.model.base.AnimeExtensionImpl
+import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
 
 class AnimeMapper(private val gson: Gson) {
 
-    fun mapToTopAnimes(data: DataTopItems) = DomainTopAnimes(
+    fun mapToTopAnimes(data: DataTopItems, feedItemType: MainFeedItemType) = DomainTopAnimes(
         data.topItems.map {
             gson.toJson(it).run {
                 AnimeCompact(
@@ -22,7 +23,8 @@ class AnimeMapper(private val gson: Gson) {
                     gson.fromJson(this, AnimeExtensionImpl::class.java)
                 )
             }
-        }
+        },
+        feedItemType
     )
 
     fun mapToAnimeDetail(data: DataGenericAnime): DomainAnimeDetail =
@@ -68,6 +70,7 @@ class AnimeMapper(private val gson: Gson) {
                     gson.fromJson(this, AnimeExtensionImpl::class.java)
                 )
             }
-        }
+        },
+        MainFeedItemType.CURRENT_SEASON
     )
 }

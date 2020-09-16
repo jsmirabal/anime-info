@@ -9,6 +9,12 @@ import com.jsmirabal.animeinfo.data.service.model.DataTopItems
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.core.WrappedException
 import com.jsmirabal.animeinfo.domain.model.*
+import com.jsmirabal.animeinfo.domain.model.base.AnimeCompact
+import com.jsmirabal.animeinfo.domain.model.base.AnimeDefinitionImpl
+import com.jsmirabal.animeinfo.domain.model.base.AnimeExtensionImpl
+import com.jsmirabal.animeinfo.domain.model.mainfeed.DomainMainFeed
+import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItem
+import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
 import io.mockk.mockk
 import retrofit2.HttpException
 
@@ -41,13 +47,18 @@ internal val dummyDomainTopAnimesResultSuccess = mockk<ResultWrapper.Success<Dom
 internal val dummyDomainTopAnimesResultError = mockk<ResultWrapper.Error<DomainLayerError>>()
 
 internal val dummyDomainRecommendedAnime = mockk<DomainRecommendedAnime>()
-internal val dummyDomainRecommendedAnimeResultSuccess = mockk<ResultWrapper.Success<DomainRecommendedAnime>>()
+internal val dummyDomainRecommendedAnimeSuccess = mockk<ResultWrapper.Success<DomainRecommendedAnime>>()
 
 internal val dummyDataSeasonAnimes = mockk<DataSeasonAnimes>()
 internal val dummyDataSeasonAnimesSuccess = mockk<ResultWrapper.Success<DataSeasonAnimes>>()
 
 internal val dummyDomainSeasonAnimes = mockk<DomainSeasonAnimes>()
 internal val dummyDomainSeasonAnimesSuccess = mockk<ResultWrapper.Success<DomainSeasonAnimes>>()
+
+internal val dummyMainFeedItem = mockk<MainFeedItem>()
+internal val dummyMainFeedItemSuccess = mockk<ResultWrapper.Success<MainFeedItem>>()
+
+internal val dummyDomainMainFeedItem = mockk<DomainMainFeed>()
 
 internal val dummyException = Exception()
 internal val dummyExceptionWithMessage = Exception(DUMMY_ERROR_MESSAGE)
@@ -126,7 +137,8 @@ internal val dummySeasonAnimesRaw = DataSeasonAnimes(
 internal val dummySeasonAnimesMapped = DomainSeasonAnimes(
     "", "", listOf(
         AnimeCompact(definition, extension)
-    )
+    ),
+    MainFeedItemType.CURRENT_SEASON
 )
 
 internal val dummyAnimeVideosMapped = DomainAnimeVideos (
@@ -148,7 +160,8 @@ internal val dummyTopAnimesMapped = DomainTopAnimes(
         dummyAnimeCompactMapped,
         dummyAnimeCompactMapped,
         dummyAnimeCompactMapped
-    )
+    ),
+    MainFeedItemType.TOP_AIRING_ANIMES
 )
 
-internal val dummyRecommendedAnimeMapped = DomainRecommendedAnime(definition, "", dummyAnimeVideosMapped.trailers)
+internal val dummyRecommendedAnimeMapped = DomainRecommendedAnime(definition, "", dummyAnimeVideosMapped.trailers, MainFeedItemType.RECOMMENDED)
