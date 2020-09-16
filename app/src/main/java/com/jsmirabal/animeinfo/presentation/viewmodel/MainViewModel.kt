@@ -4,25 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
-import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
-import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
+import com.jsmirabal.animeinfo.domain.model.mainfeed.DomainMainFeed
+import com.jsmirabal.animeinfo.domain.usecase.build.BuildMainFeedUseCase
 import kotlinx.coroutines.Job
 
-class AnimeViewModel(
-    private val fetchTopAiringAnimesUseCase: FetchTopAiringAnimesUseCase
+class MainViewModel(
+    private val buildMainFeedUseCase: BuildMainFeedUseCase
 ) : ViewModel() {
 
     private val jobs: MutableList<Job> = mutableListOf()
-    private val topAnimesLiveData: MutableLiveData<DomainTopAnimes> = MutableLiveData()
+    private val mainFeedLiveData: MutableLiveData<DomainMainFeed> = MutableLiveData()
     private val errorLiveData: MutableLiveData<String> = MutableLiveData()
 
-    fun fetchTopAnimes() {
-        fetchTopAiringAnimesUseCase.runAsync("1") { result ->
-            result.successOrError(this::onSuccess, this::onError)
+    fun buildMainFeed() {
+        buildMainFeedUseCase.runAsync(Unit) { result ->
+            result.successOrError(::onMainFeedSuccess, ::onError)
         }.apply { jobs.add(this) }
     }
 
-    fun getTopAnimesLiveData(): LiveData<DomainTopAnimes> = topAnimesLiveData
+    fun getMainFeedLiveData(): LiveData<DomainMainFeed> = mainFeedLiveData
 
     fun getErrorLiveData(): LiveData<String> = errorLiveData
 
@@ -31,8 +31,8 @@ class AnimeViewModel(
         jobs.clear()
     }
 
-    private fun onSuccess(result: DomainTopAnimes) {
-        topAnimesLiveData.value = result
+    private fun onMainFeedSuccess(result: DomainMainFeed) {
+        mainFeedLiveData.value = result
     }
 
     private fun onError(error: DomainLayerError) {
