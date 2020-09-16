@@ -58,7 +58,8 @@ internal val dummyDomainSeasonAnimesSuccess = mockk<ResultWrapper.Success<Domain
 internal val dummyMainFeedItem = mockk<MainFeedItem>()
 internal val dummyMainFeedItemSuccess = mockk<ResultWrapper.Success<MainFeedItem>>()
 
-internal val dummyDomainMainFeedItem = mockk<DomainMainFeed>()
+internal val dummyDomainMainFeed = mockk<DomainMainFeed>()
+internal val dummyDomainMainFeedSuccess = mockk<ResultWrapper.Success<DomainMainFeed>>()
 
 internal val dummyException = Exception()
 internal val dummyExceptionWithMessage = Exception(DUMMY_ERROR_MESSAGE)
