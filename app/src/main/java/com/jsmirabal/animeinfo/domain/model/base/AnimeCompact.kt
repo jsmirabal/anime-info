@@ -1,4 +1,4 @@
-package com.jsmirabal.animeinfo.domain.model
+package com.jsmirabal.animeinfo.domain.model.base
 
 data class AnimeCompact(
     private val definition: AnimeDefinition,

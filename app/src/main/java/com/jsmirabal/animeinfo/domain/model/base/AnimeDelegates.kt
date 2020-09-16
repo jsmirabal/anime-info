@@ -1,4 +1,4 @@
-package com.jsmirabal.animeinfo.domain.model
+package com.jsmirabal.animeinfo.domain.model.base
 
 import com.google.gson.annotations.SerializedName
 

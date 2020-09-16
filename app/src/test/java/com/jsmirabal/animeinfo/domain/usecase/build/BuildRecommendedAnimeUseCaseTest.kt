@@ -1,10 +1,13 @@
-package com.jsmirabal.animeinfo.domain.usecase
+package com.jsmirabal.animeinfo.domain.usecase.build
 
 import com.jsmirabal.animeinfo.data.*
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeDetail
 import com.jsmirabal.animeinfo.domain.model.DomainAnimeVideos
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
+import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchAnimeDetailUseCase
+import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchAnimeVideosUseCase
+import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
 import io.mockk.MockKMatcherScope
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -21,7 +24,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class FetchRecommendedAnimeUseCaseTest {
+internal class BuildRecommendedAnimeUseCaseTest {
     private val testScope = TestCoroutineScope()
 
     private val animeIdSlot = slot<(DomainTopAnimes) -> Int>()
@@ -32,7 +35,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
     private val topAiringAnimesUseCase = mockk<FetchTopAiringAnimesUseCase>()
     private val animeDetailUseCase = mockk<FetchAnimeDetailUseCase>()
     private val animeVideosUseCase = mockk<FetchAnimeVideosUseCase>()
-    private val useCase = FetchRecommendedAnimeUseCase(
+    private val useCase = BuildRecommendedAnimeUseCase(
         topAiringAnimesUseCase,
         animeDetailUseCase,
         animeVideosUseCase,
@@ -58,7 +61,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
         every { animeVideosSuccessCaptured() } returns dummyAnimeVideosMapped
 
         TestLogger.whenever("FetchRecommendedAnimeUseCase is executed")
-        val result = useCase.run(PAGE_NUMBER)
+        val result = useCase.run(Unit)
         animeIdSlot.captured.invoke(dummyTopAnimesMapped)
         animeDetailSlot.captured.invoke(dummyAnimeDetailMapped)
         animeVideosSlot.captured.invoke(dummyAnimeVideosMapped)
@@ -90,7 +93,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
         every { topAnimesErrorCaptured() } throws dummyWrappedException
 
         TestLogger.whenever("FetchRecommendedAnimeUseCase is executed")
-        val result = useCase.run(PAGE_NUMBER)
+        val result = useCase.run(Unit)
         throwSlot.captured.invoke(dummyBusinessError)
 
         TestLogger.then("Validate that the expected data is returned")
@@ -117,7 +120,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
         every { animeDetailErrorCaptured() } throws dummyWrappedException
 
         TestLogger.whenever("FetchRecommendedAnimeUseCase is executed")
-        val result = useCase.run(PAGE_NUMBER)
+        val result = useCase.run(Unit)
         animeIdSlot.captured.invoke(dummyTopAnimesMapped)
         throwSlot.captured.invoke(dummyBusinessError)
 
@@ -148,7 +151,7 @@ internal class FetchRecommendedAnimeUseCaseTest {
         every { animeVideosErrorCaptured() } throws dummyWrappedException
 
         TestLogger.whenever("FetchRecommendedAnimeUseCase is executed")
-        val result = useCase.run(PAGE_NUMBER)
+        val result = useCase.run(Unit)
         animeIdSlot.captured.invoke(dummyTopAnimesMapped)
         animeDetailSlot.captured.invoke(dummyAnimeDetailMapped)
         throwSlot.captured.invoke(dummyBusinessError)

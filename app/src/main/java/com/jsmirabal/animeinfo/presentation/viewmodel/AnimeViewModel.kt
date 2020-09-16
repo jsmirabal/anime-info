@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
-import com.jsmirabal.animeinfo.domain.usecase.FetchTopAiringAnimesUseCase
+import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
 import kotlinx.coroutines.Job
 
 class AnimeViewModel(

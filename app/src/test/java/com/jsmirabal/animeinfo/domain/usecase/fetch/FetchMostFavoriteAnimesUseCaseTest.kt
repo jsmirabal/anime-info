@@ -1,7 +1,8 @@
-package com.jsmirabal.animeinfo.domain.usecase
+package com.jsmirabal.animeinfo.domain.usecase.fetch
 
+import com.jsmirabal.animeinfo.data.PAGE_NUMBER
 import com.jsmirabal.animeinfo.data.TestLogger
-import com.jsmirabal.animeinfo.data.dummyDomainSeasonAnimesSuccess
+import com.jsmirabal.animeinfo.data.dummyDomainTopAnimesResultSuccess
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -16,10 +17,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-class FetchCurrentSeasonUseCaseTest {
+internal class FetchMostFavoriteAnimesUseCaseTest {
     private val repository = mockk<AnimeRepository>()
     private val testScope = TestCoroutineScope()
-    private val useCase = FetchCurrentSeasonUseCase(repository, testScope)
+    private val useCase = FetchMostFavoriteAnimesUseCase(repository, testScope)
 
     @AfterEach
     fun afterEach() {
@@ -29,16 +30,16 @@ class FetchCurrentSeasonUseCaseTest {
     @Test
     fun run() = runBlockingTest {
         TestLogger.given("AnimeRepository returns mocked data")
-        coEvery { repository.fetchCurrentSeason() } returns dummyDomainSeasonAnimesSuccess
+        coEvery { repository.fetchMostFavoriteAnimes(PAGE_NUMBER) } returns dummyDomainTopAnimesResultSuccess
 
-        TestLogger.whenever("FetchCurrentSeasonUseCase is executed")
-        val result = useCase.run(Unit)
+        TestLogger.whenever("FetchMostFavoriteAnimesUseCase is executed")
+        val result = useCase.run(PAGE_NUMBER)
 
         TestLogger.then("Validate that the expected data is returned")
-        result shouldEqual dummyDomainSeasonAnimesSuccess
+        result shouldEqual dummyDomainTopAnimesResultSuccess
 
-        TestLogger.then("Validate AnimeRepository#fetchCurrentSeason() was called")
-        coVerify { repository.fetchCurrentSeason() }
+        TestLogger.then("Validate AnimeRepository#fetchTopItems() was called")
+        coVerify { repository.fetchMostFavoriteAnimes(PAGE_NUMBER) }
 
         TestLogger.finally("Validate every method called from AnimeRepository was verified")
         confirmVerified(repository)

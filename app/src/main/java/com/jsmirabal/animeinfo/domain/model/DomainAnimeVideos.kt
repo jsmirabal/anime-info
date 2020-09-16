@@ -1,6 +1,7 @@
 package com.jsmirabal.animeinfo.domain.model
 
 import com.google.gson.annotations.SerializedName
+import com.jsmirabal.animeinfo.domain.model.base.AnimeDefinition
 
 data class DomainAnimeVideos(
     val episodes: List<Episode>,
