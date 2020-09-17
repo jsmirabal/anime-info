@@ -13,8 +13,9 @@ import com.jsmirabal.animeinfo.domain.mapper.AnimeMapper
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
+import javax.inject.Inject
 
-class AnimeRepositoryImpl(
+class AnimeRepositoryImpl @Inject constructor(
     private val animeService: AnimeService,
     private val mapper: AnimeMapper
 ) : AnimeRepository {

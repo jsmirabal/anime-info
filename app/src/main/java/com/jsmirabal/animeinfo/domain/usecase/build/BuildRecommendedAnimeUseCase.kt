@@ -15,12 +15,15 @@ import com.jsmirabal.animeinfo.domain.usecase.base.UseCase
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchAnimeDetailUseCase
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchAnimeVideosUseCase
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
+import com.jsmirabal.animeinfo.presentation.di.DomainCoroutine
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 
-class BuildRecommendedAnimeUseCase(
+class BuildRecommendedAnimeUseCase @Inject constructor(
     private val fetchTopAiringAnimesUseCase: FetchTopAiringAnimesUseCase,
     private val fetchAnimeDetailUseCase: FetchAnimeDetailUseCase,
     private val fetchAnimeVideosUseCase: FetchAnimeVideosUseCase,
+    @DomainCoroutine
     scope: CoroutineScope
 ) : UseCase<Unit, ResultWrapper<DomainRecommendedAnime, DomainLayerError>>(scope) {
 

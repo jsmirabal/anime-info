@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jsmirabal.animeinfo.R
 import com.jsmirabal.animeinfo.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
