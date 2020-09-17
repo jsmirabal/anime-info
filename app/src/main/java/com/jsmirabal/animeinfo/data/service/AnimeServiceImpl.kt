@@ -7,8 +7,11 @@ import com.jsmirabal.animeinfo.data.service.api.Top
 import com.jsmirabal.animeinfo.data.service.model.DataLayerError
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class AnimeServiceImpl(private val animeApi: AnimeApi) : AnimeService {
+class AnimeServiceImpl @Inject constructor(
+    private val animeApi: AnimeApi
+) : AnimeService {
 
     override suspend fun fetchTopItems(type: Top.Type, subType: Top.SubType, page: String) = try {
         ResultWrapper.Success(animeApi.fetchTopItems(type.get(), subType.get(), page))

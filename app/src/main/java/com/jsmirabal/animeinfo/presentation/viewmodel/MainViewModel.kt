@@ -1,5 +1,6 @@
 package com.jsmirabal.animeinfo.presentation.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +9,7 @@ import com.jsmirabal.animeinfo.domain.model.mainfeed.DomainMainFeed
 import com.jsmirabal.animeinfo.domain.usecase.build.BuildMainFeedUseCase
 import kotlinx.coroutines.Job
 
-class MainViewModel(
+class MainViewModel @ViewModelInject constructor(
     private val buildMainFeedUseCase: BuildMainFeedUseCase
 ) : ViewModel() {
 

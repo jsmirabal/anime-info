@@ -5,10 +5,13 @@ import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.DomainTopAnimes
 import com.jsmirabal.animeinfo.domain.repository.AnimeRepository
 import com.jsmirabal.animeinfo.domain.usecase.base.UseCase
+import com.jsmirabal.animeinfo.presentation.di.DomainCoroutine
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 
-class FetchTopUpcomingAnimesUseCase(
+class FetchTopUpcomingAnimesUseCase @Inject constructor(
     private val repository: AnimeRepository,
+    @DomainCoroutine
     scope: CoroutineScope
 ) : UseCase<String, ResultWrapper<DomainTopAnimes, DomainLayerError>>(scope) {
 

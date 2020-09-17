@@ -14,15 +14,18 @@ import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchMostFavoriteAnimesUseCa
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchMostPopularAnimesUseCase
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopAiringAnimesUseCase
 import com.jsmirabal.animeinfo.domain.usecase.fetch.FetchTopUpcomingAnimesUseCase
+import com.jsmirabal.animeinfo.presentation.di.DomainCoroutine
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 
-class BuildMainFeedUseCase(
+class BuildMainFeedUseCase @Inject constructor(
     private val buildRecommendedAnimeUseCase: BuildRecommendedAnimeUseCase,
     private val fetchCurrentSeasonUseCase: FetchCurrentSeasonUseCase,
     private val fetchTopAiringAnimesUseCase: FetchTopAiringAnimesUseCase,
     private val fetchTopUpcomingAnimesUseCase: FetchTopUpcomingAnimesUseCase,
     private val fetchMostPopularAnimesUseCase: FetchMostPopularAnimesUseCase,
     private val fetchMostFavoriteAnimesUseCase: FetchMostFavoriteAnimesUseCase,
+    @DomainCoroutine
     scope: CoroutineScope
 ) : UseCase<Unit, ResultWrapper<DomainMainFeed, DomainLayerError>>(scope) {
 

@@ -3,6 +3,7 @@ plugins {
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinAndroidExtensions)
     id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.hilt)
     id(BuildPlugins.navigationSafeArgs)
 }
 
@@ -38,6 +39,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
@@ -50,6 +55,9 @@ dependencies {
 
     // Google
     implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.dagger:hilt-android:2.28-alpha")
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
+    kapt("com.google.dagger:hilt-android-compiler:2.28-alpha")
 
     // Networking
     implementation("com.squareup.retrofit2:retrofit:2.7.2")

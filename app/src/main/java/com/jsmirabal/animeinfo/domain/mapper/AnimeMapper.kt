@@ -12,8 +12,11 @@ import com.jsmirabal.animeinfo.domain.model.base.AnimeCompact
 import com.jsmirabal.animeinfo.domain.model.base.AnimeDefinitionImpl
 import com.jsmirabal.animeinfo.domain.model.base.AnimeExtensionImpl
 import com.jsmirabal.animeinfo.domain.model.mainfeed.MainFeedItemType
+import javax.inject.Inject
 
-class AnimeMapper(private val gson: Gson) {
+class AnimeMapper @Inject constructor(
+    private val gson: Gson
+) {
 
     fun mapToTopAnimes(data: DataTopItems, feedItemType: MainFeedItemType) = DomainTopAnimes(
         data.topItems.map {
