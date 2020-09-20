@@ -14,19 +14,40 @@ class AnimeServiceImpl @Inject constructor(
 ) : AnimeService {
 
     override suspend fun fetchTopItems(type: Top.Type, subType: Top.SubType, page: String) = try {
-        ResultWrapper.Success(animeApi.fetchTopItems(type.get(), subType.get(), page))
+        ResultWrapper.Success(
+            // I don't like this but Retrofit doesn't handle well empty params u.u
+            if (page.isEmpty()) {
+                animeApi.fetchTopItems(type.get(), subType.get())
+            } else {
+                animeApi.fetchTopItems(type.get(), subType.get(), page)
+            }
+        )
     } catch (e: Exception) {
         getError(e)
     }
 
     override suspend fun fetchAnime(id: String, request: Anime.Request, page: String) = try {
-        ResultWrapper.Success(animeApi.fetchAnime(id, request.get(), page))
+        ResultWrapper.Success(
+            when {
+                request == Anime.Request.DETAIL -> animeApi.fetchAnime(id)
+
+                page.isEmpty() -> animeApi.fetchAnime(id, request.get())
+
+                else -> animeApi.fetchAnime(id, request.get(), page)
+            }
+        )
     } catch (e: Exception) {
         getError(e)
     }
 
     override suspend fun fetchSeason(year: String, season: Season) = try {
-        ResultWrapper.Success(animeApi.fetchSeason(year, season.get()))
+        ResultWrapper.Success(
+            if (year.isEmpty() or season.get().isEmpty()) {
+                animeApi.fetchSeason()
+            } else {
+                animeApi.fetchSeason(year, season.get())
+            }
+        )
     } catch (e: Exception) {
         getError(e)
     }
