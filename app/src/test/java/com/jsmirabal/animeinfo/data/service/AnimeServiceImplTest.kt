@@ -52,7 +52,7 @@ internal class AnimeServiceImplTest {
         coEvery { fetchAnime() } returns dummyDataAnime
 
         TestLogger.whenever("AnimeService fetches Anime Data")
-        val result = service.fetchAnime(ANIME_ID, ANIME_DETAIL, PAGE_NUMBER)
+        val result = service.fetchAnime(ANIME_ID, ANIME_DETAIL)
 
         TestLogger.then("Validates AnimeService returned expected data")
         result.success()?.get() shouldEqual dummyDataAnime
@@ -157,7 +157,7 @@ internal class AnimeServiceImplTest {
         animeApi.fetchTopItems(TYPE_ANIME.get(), SUB_TYPE_AIRING.get(), PAGE_NUMBER)
 
     private suspend fun fetchAnime() =
-        animeApi.fetchAnime(ANIME_ID, ANIME_DETAIL.get(), PAGE_NUMBER)
+        animeApi.fetchAnime(ANIME_ID)
 
     private suspend fun fetchSeason() =
         animeApi.fetchSeason(SEASON_YEAR, SEASON_WINTER.get())

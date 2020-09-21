@@ -50,6 +50,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.2.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:$androidNavigationVersion")
@@ -70,6 +71,9 @@ dependencies {
 
     // Threading
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+
+    // Image loading
+    implementation("io.coil-kt:coil:0.13.0")
 
     // Instrumentation testing
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
