@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.jsmirabal.animeinfo.domain.model.DomainLayerError
 import com.jsmirabal.animeinfo.domain.model.mainfeed.DomainMainFeed
 import com.jsmirabal.animeinfo.domain.usecase.build.BuildMainFeedUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 
 class MainViewModel @ViewModelInject constructor(
     private val buildMainFeedUseCase: BuildMainFeedUseCase
@@ -19,7 +21,9 @@ class MainViewModel @ViewModelInject constructor(
 
     fun buildMainFeed() {
         buildMainFeedUseCase.runAsync(Unit) { result ->
-            result.successOrError(::onMainFeedSuccess, ::onError)
+            withContext(Dispatchers.Main) {
+                result.successOrError(::onMainFeedSuccess, ::onError)
+            }
         }.apply { jobs.add(this) }
     }
 

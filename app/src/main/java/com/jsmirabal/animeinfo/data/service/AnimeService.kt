@@ -1,7 +1,7 @@
 package com.jsmirabal.animeinfo.data.service
 
 import com.jsmirabal.animeinfo.data.service.api.Anime
-import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
+import com.jsmirabal.animeinfo.data.service.api.DEFAULT_PAGE
 import com.jsmirabal.animeinfo.data.service.api.NO_YEAR
 import com.jsmirabal.animeinfo.data.service.api.Season
 import com.jsmirabal.animeinfo.data.service.api.Top
@@ -15,13 +15,13 @@ interface AnimeService {
     suspend fun fetchTopItems(
         type: Top.Type,
         subType: Top.SubType = Top.SubType.NO_SUB_TYPE, // Optional
-        page: String = NO_PAGE // Optional
+        page: String = DEFAULT_PAGE // Optional
     ): ResultWrapper<DataTopItems, DataLayerError>
 
     suspend fun fetchAnime(
         id: String,
         request: Anime.Request,
-        page: String = NO_PAGE // Optional
+        page: String = DEFAULT_PAGE // Optional
     ): ResultWrapper<DataGenericAnime, DataLayerError>
 
     suspend fun fetchSeason(

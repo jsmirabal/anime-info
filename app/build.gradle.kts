@@ -50,6 +50,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:$androidNavigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$androidNavigationVersion")
 
@@ -57,15 +60,20 @@ dependencies {
     implementation("com.google.android.material:material:1.2.1")
     implementation("com.google.dagger:hilt-android:2.28-alpha")
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
+    kapt("androidx.hilt:hilt-compiler:1.0.0-alpha02")
     kapt("com.google.dagger:hilt-android-compiler:2.28-alpha")
 
     // Networking
     implementation("com.squareup.retrofit2:retrofit:2.7.2")
     implementation("com.squareup.retrofit2:converter-gson:2.6.1")
     implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
 
     // Threading
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+
+    // Image loading
+    implementation("io.coil-kt:coil:0.13.0")
 
     // Instrumentation testing
     androidTestImplementation("androidx.test.ext:junit:1.1.2")

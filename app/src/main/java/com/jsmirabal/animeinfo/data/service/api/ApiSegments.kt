@@ -1,5 +1,6 @@
 package com.jsmirabal.animeinfo.data.service.api
 
+const val DEFAULT_PAGE = "1"
 const val NO_PAGE = ""
 const val NO_YEAR = ""
 

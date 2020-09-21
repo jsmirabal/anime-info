@@ -2,6 +2,7 @@ package com.jsmirabal.animeinfo.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.jsmirabal.animeinfo.InstantTaskExecutorExtension
+import com.jsmirabal.animeinfo.TestDispatcherExtension
 import com.jsmirabal.animeinfo.data.DUMMY_ERROR_MESSAGE
 import com.jsmirabal.animeinfo.data.TestLogger
 import com.jsmirabal.animeinfo.data.dummyBusinessError
@@ -14,6 +15,7 @@ import com.jsmirabal.animeinfo.domain.usecase.build.BuildMainFeedUseCase
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldNotBe
@@ -22,7 +24,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantTaskExecutorExtension::class)
+@ExtendWith(InstantTaskExecutorExtension::class, TestDispatcherExtension::class)
 internal class MainViewModelTest {
     private val buildMainFeedUseCase = mockk<BuildMainFeedUseCase>()
     private val animeViewModelSpy =
@@ -38,7 +40,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun buildMainFeedSuccess() = runBlockingTest {
+    fun buildMainFeedSuccess() = runBlocking {
         TestLogger.given("BuildMainFeedUseCase returns mocked data")
         every { buildMainFeedUseCaseCaptured() } returns Job()
         TestLogger.and("ResultWrapper returns mocked data")
@@ -76,7 +78,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun buildMainFeedError() = runBlockingTest {
+    fun buildMainFeedError() = runBlocking {
         TestLogger.given("BuildMainFeedUseCase returns mocked data")
         every { buildMainFeedUseCaseCaptured() } returns Job()
         TestLogger.and("ResultWrapper returns mocked data")

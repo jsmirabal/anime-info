@@ -8,23 +8,43 @@ import retrofit2.http.Path
 
 interface AnimeApi {
 
-    @GET("/top/{type}/{page}/{subType}")
+    @GET("/v3/top/{type}/{page}/{subType}")
     suspend fun fetchTopItems(
         @Path("type") type: String,
         @Path("subType") subType: String,
         @Path("page") page: String
     ): DataTopItems
 
-    @GET("/anime/{id}/{request}/{page}")
+    @GET("/v3/top/{type}/{subType}")
+    suspend fun fetchTopItems(
+        @Path("type") type: String,
+        @Path("subType") subType: String
+    ): DataTopItems
+
+    @GET("/v3/anime/{id}/{request}/{page}")
     suspend fun fetchAnime(
         @Path("id") id: String,
         @Path("request") request: String,
         @Path("page") page: String
     ): DataGenericAnime
 
-    @GET("/season/{year}/{season}")
+    @GET("/v3/anime/{id}/{request}")
+    suspend fun fetchAnime(
+        @Path("id") id: String,
+        @Path("request") request: String
+    ): DataGenericAnime
+
+    @GET("/v3/anime/{id}")
+    suspend fun fetchAnime(
+        @Path("id") id: String
+    ): DataGenericAnime
+
+    @GET("/v3/season/{year}/{season}")
     suspend fun fetchSeason(
         @Path("year") year: String,
         @Path("season") season: String
     ): DataSeasonAnimes
+
+    @GET("/v3/season")
+    suspend fun fetchSeason(): DataSeasonAnimes
 }

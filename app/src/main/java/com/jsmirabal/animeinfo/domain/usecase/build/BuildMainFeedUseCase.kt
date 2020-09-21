@@ -1,6 +1,6 @@
 package com.jsmirabal.animeinfo.domain.usecase.build
 
-import com.jsmirabal.animeinfo.data.service.api.NO_PAGE
+import com.jsmirabal.animeinfo.data.service.api.DEFAULT_PAGE
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Error
 import com.jsmirabal.animeinfo.domain.core.ResultWrapper.Success
@@ -67,25 +67,25 @@ class BuildMainFeedUseCase @Inject constructor(
         )
 
     private suspend fun getTopAiringAnimesOrFail(): MainFeedItem =
-        fetchTopAiringAnimesUseCase.runAsync(NO_PAGE).await().returnSuccessOrThrow(
+        fetchTopAiringAnimesUseCase.runAsync(DEFAULT_PAGE).await().returnSuccessOrThrow(
             returnSuccess = { it },
             throwE = { WrappedException(it) }
         )
 
     private suspend fun getTopUpcomingAnimesOrFail(): MainFeedItem =
-        fetchTopUpcomingAnimesUseCase.runAsync(NO_PAGE).await().returnSuccessOrThrow(
+        fetchTopUpcomingAnimesUseCase.runAsync(DEFAULT_PAGE).await().returnSuccessOrThrow(
             returnSuccess = { it },
             throwE = { WrappedException(it) }
         )
 
     private suspend fun getMostPopularAnimesOrFail(): MainFeedItem =
-        fetchMostPopularAnimesUseCase.runAsync(NO_PAGE).await().returnSuccessOrThrow(
+        fetchMostPopularAnimesUseCase.runAsync(DEFAULT_PAGE).await().returnSuccessOrThrow(
             returnSuccess = { it },
             throwE = { WrappedException(it) }
         )
 
     private suspend fun getMostFavoriteAnimesOrFail(): MainFeedItem =
-        fetchMostFavoriteAnimesUseCase.runAsync(NO_PAGE).await().returnSuccessOrThrow(
+        fetchMostFavoriteAnimesUseCase.runAsync(DEFAULT_PAGE).await().returnSuccessOrThrow(
             returnSuccess = { it },
             throwE = { WrappedException(it) }
         )
